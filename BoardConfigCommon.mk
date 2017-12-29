@@ -122,6 +122,9 @@ DEVICE_MATRIX_FILE := $(COMMON_PATH)/compatibility_matrix.xml
 # HW crypto
 TARGET_HW_DISK_ENCRYPTION := true
 
+# HWUI
+HWUI_COMPILE_FOR_PERF := true
+
 # Partitions
 TARGET_COPY_OUT_VENDOR := vendor
 BOARD_BUILD_SYSTEM_ROOT_IMAGE := true
