@@ -241,7 +241,8 @@ PRODUCT_PACKAGES += \
 
 # Notch
 PRODUCT_PACKAGES += \
-    NotchBarKiller
+    NotchBarKiller \
+    NoCutoutOverlay
 
 # OMX
 PRODUCT_PACKAGES += \
