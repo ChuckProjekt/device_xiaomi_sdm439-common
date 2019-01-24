@@ -424,7 +424,7 @@ QCamera3HardwareInterface::QCamera3HardwareInterface(uint32_t cameraId,
       mRawDumpChannel(NULL),
       mDummyBatchChannel(NULL),
       mPerfLockMgr(),
-      m_pFovControl(NULL),
+      m_thermalAdapter(QCameraThermalAdapter::getInstance()),
       mChannelHandle(0),
       mFirstConfiguration(true),
       mFlush(false),
@@ -456,6 +456,7 @@ QCamera3HardwareInterface::QCamera3HardwareInterface(uint32_t cameraId,
       mStreamConfig(false),
       mCommon(),
       mQCFARawChannel(NULL),
+      m_pFovControl(NULL),
       mFirstFrameNumberInBatch(0),
       mNeedSensorRestart(false),
       mPreviewStarted(false),
@@ -868,6 +869,32 @@ void QCamera3HardwareInterface::camEvtHandle(uint32_t /*camera_handle*/,
 }
 
 /*===========================================================================
+ * FUNCTION   : thermalEvtHandle
+ *
+ * DESCRIPTION: routine to handle thermal event notification
+ *
+ * PARAMETERS :
+ *   @level      : thermal level
+ *   @userdata   : userdata passed in during registration
+ *   @data       : opaque data from thermal client
+ *
+ * RETURN     : int32_t type of status
+ *              NO_ERROR  -- success
+ *              none-zero failure code
+ *==========================================================================*/
+int QCamera3HardwareInterface::thermalEvtHandle(
+        qcamera_thermal_level_enum_t *level, void *userdata, void *data)
+{
+    /* TODO: implementation for thermal events handling */
+
+    // Make sure thermal events are logged
+    LOGH(" level = %d, userdata = %p, data = %p",
+         *level, userdata, data);
+
+    return NO_ERROR;
+}
+
+/*===========================================================================
  * FUNCTION   : openCamera
  *
  * DESCRIPTION: open camera
@@ -912,6 +939,9 @@ int QCamera3HardwareInterface::openCamera(struct hw_device_t **hw_device)
     rc = openCamera();
     if (rc == 0) {
         *hw_device = &mCameraDevice.common;
+        if (m_thermalAdapter.init(this) != 0) {
+           LOGW("Init thermal adapter failed");
+        }
     } else {
         *hw_device = NULL;
     }
@@ -1106,6 +1136,8 @@ int QCamera3HardwareInterface::closeCamera()
         m_pDualCamCmdHeap = NULL;
         memset(m_pDualCamCmdPtr, 0, sizeof(m_pDualCamCmdPtr));
     }
+
+    m_thermalAdapter.deinit();
 
     rc = mCameraHandle->ops->close_camera(mCameraHandle->camera_handle);
     mCameraHandle = NULL;
@@ -1535,6 +1567,16 @@ void QCamera3HardwareInterface::addToPPFeatureMask(int stream_format,
 
     switch (stream_format) {
     case HAL_PIXEL_FORMAT_IMPLEMENTATION_DEFINED: {
+        char prop[PROPERTY_VALUE_MAX];
+        memset(prop, 0, sizeof(prop));
+        int32_t fixedFOVCenabled = FALSE;
+        property_get("persist.vendor.camera.fovc.enable", prop, "0");
+        fixedFOVCenabled = atoi(prop);
+        if (fixedFOVCenabled == 1) {
+            LOGH("Fixed FOVC feature mask set for stream format");
+            mStreamConfigInfo.postprocess_mask[stream_idx]
+                    |= CAM_QTI_FEATURE_FIXED_FOVC;
+        }
         /* Add LLVD to pp feature mask only if video hint is enabled */
         if ((m_bIsVideo) && (feature_mask & CAM_QTI_FEATURE_SW_TNR)) {
             mStreamConfigInfo.postprocess_mask[stream_idx]
@@ -10760,13 +10802,11 @@ int QCamera3HardwareInterface::initStaticMetadata(uint32_t cameraId)
     /*HFR configs of 60 and 90fps are not supported as changes are not completely implemented
     end to end. Once changes are implemented, changes can be uncommented to support it. Define
     macro "SUPPORT_HFR_CONFIG_60_90_FPS" to enable HFR 60 and 90 fps in the app setting*/
-#ifdef SUPPORT_HFR_CONFIGS_60_90_FPS
     if (custom_hfr_configs.size() > 0) {
         staticInfo.update(
             QCAMERA3_HFR_SIZES,
             custom_hfr_configs.array(), custom_hfr_configs.size());
     }
-#endif
 
     uint8_t cam_mode = is_dual_camera_by_idx(cameraId);
     staticInfo.update(QCAMERA3_LOGICAL_CAM_MODE, &cam_mode, 1);
@@ -14691,12 +14731,8 @@ void QCamera3HardwareInterface::setDCFeature(
                 (getHalPPType() != CAM_HAL_PP_TYPE_BOKEH) &&
                 (getHalPPType() != CAM_HAL_PP_TYPE_CLEARSIGHT)) {
             LOGH("SAT flag enabled");
-            if (stream_type == CAM_STREAM_TYPE_VIDEO /*&&
-                !is4k2kVideoResolution()*/) {
-                feature_mask |= CAM_QTI_FEATURE_SAT;
-                LOGH("SAT feature mask set");
-            } else if ((stream_type == CAM_STREAM_TYPE_PREVIEW)||
-                (stream_type == CAM_STREAM_TYPE_CALLBACK)) {
+            if ((stream_type == CAM_STREAM_TYPE_VIDEO) ||
+                (stream_type == CAM_STREAM_TYPE_PREVIEW)) {
                 feature_mask |= CAM_QTI_FEATURE_SAT;
                 LOGH("SAT feature mask set");
             }
@@ -14738,8 +14774,7 @@ void QCamera3HardwareInterface::setDCFeature(
         if (rtbEnabledFlag ||
                 (getHalPPType() == CAM_HAL_PP_TYPE_BOKEH)) {
             LOGH("RTB flag enabled");
-            if ((stream_type == CAM_STREAM_TYPE_PREVIEW)||
-                (stream_type == CAM_STREAM_TYPE_CALLBACK)) {
+            if (stream_type == CAM_STREAM_TYPE_PREVIEW) {
                 feature_mask |= CAM_QTI_FEATURE_RTB;
                 LOGH("RTB feature mask set");
             }

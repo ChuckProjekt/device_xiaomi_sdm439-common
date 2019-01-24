@@ -308,6 +308,28 @@ bool QCameraCommon::isVideoUBWCEnabled()
 }
 
 /*===========================================================================
+ * FUNCTION   : needHAL1Support
+ *
+ * DESCRIPTION: Function to check whether HAL1 is supported or not.
+ *
+ * PARAMETERS : None
+ *
+ * RETURN     : TRUE -- HAL1/HAL3 supported target.
+ *              FALSE -- Only HAL3 supported target.
+ *==========================================================================*/
+bool QCameraCommon::needHAL1Support()
+{
+#ifdef SUPPORT_ONLY_HAL3
+        LOGI("ONLY HAL3 SUPPORTED");
+        return FALSE;
+#else
+    // HAL1/HAL3 is supported
+    LOGI("HAL1/HAL3 IS SUPPORTED");
+    return TRUE;
+#endif
+}
+
+/*===========================================================================
  * FUNCTION   : is_target_SDM450
  *
  * DESCRIPTION: Function to check whether target is sdm630 or not.
@@ -323,6 +345,21 @@ bool QCameraCommon::is_target_SDM450()
     return (parseHWID() == 338 || parseHWID() == 351);
 }
 
+/*===========================================================================
+ * FUNCTION   : is_target_QM215
+ *
+ * DESCRIPTION: Function to check whether target is QM215  or not.
+ *
+ * PARAMETERS : None
+ *
+ * RETURN     : TRUE -- QM215 target.
+ *              FALSE -- Some other target.
+ *==========================================================================*/
+
+bool QCameraCommon::is_target_QM215()
+{
+    return (parseHWID() == 386);
+}
 
 /*===========================================================================
  * FUNCTION   : is_target_SDM630
