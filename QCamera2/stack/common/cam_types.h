@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -192,6 +192,8 @@
 #define CAM_FREERUN_IDX 0xFFFFFFFF
 
 #define DUALCAM_CAMERA_CNT 2
+
+#define MAX_SECURE_BUFFERS  3
 
 typedef uint64_t cam_feature_mask_t;
 
@@ -635,6 +637,13 @@ typedef enum {
     CAM_EXP_PRIORITY,
     CAM_DEFAULT_OFF,
 } cam_priority_mode_t;
+
+typedef enum {
+    CAM_MANUAL_WB_OFF,
+    CAM_MANUAL_WB_CCT,
+    CAM_MANUAL_WB_GAINS,
+} cam_manual_wb_mode_t;
+
 
 typedef enum {
     CAM_HFR_MODE_OFF,

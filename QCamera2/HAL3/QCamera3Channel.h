@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -133,7 +133,7 @@ public:
     bool isUBWCEnabled();
     void setUBWCEnabled(bool val);
     cam_format_t getStreamDefaultFormat(cam_stream_type_t type,
-            uint32_t width, uint32_t height);
+            uint32_t width, uint32_t height, uint32_t usage = 0);
     virtual int32_t timeoutFrame(__unused uint32_t frameNumber) = 0;
     virtual void switchMaster(uint32_t masterCam);
     virtual void overridePPConfig(cam_feature_mask_t pp_mask);
@@ -156,6 +156,7 @@ protected:
                       uint32_t batchSize = 0);
 
     int32_t allocateStreamInfoBuf(camera3_stream_t *stream);
+    bool isSecureMode() {return m_bIsSecureMode;}
 
     uint32_t m_camHandle;
     mm_camera_ops_t *m_camOps;
@@ -186,6 +187,7 @@ protected:
     uint32_t mDumpSkipCnt;
     uint32_t mMasterCam;
     bool m_bDualChannel;
+    bool m_bIsSecureMode;
 };
 
 /* QCamera3ProcessingChannel is used to handle all streams that are directly
@@ -544,7 +546,8 @@ public:
             camera3_stream_t *stream,
             cam_stream_type_t stream_type,
             cam_feature_mask_t postprocess_mask,
-            QCamera3Channel *metadataChannel);
+            QCamera3Channel *metadataChannel,
+            uint32_t numBuffers = MAX_INFLIGHT_REQUESTS);
     ~QCamera3YUVChannel();
     virtual int32_t initialize(cam_is_type_t isType);
     using QCamera3ProcessingChannel::request;
@@ -671,6 +674,9 @@ public:
     int32_t releaseOfflineMemory(uint32_t resultFrameNumber);
     virtual void setDualChannelMode(bool bMode);
     bool isMpoEnabled() { return m_bMpoEnabled; }
+    void deleteChannel();
+    int32_t startChannel();
+    int32_t stopChannel();
 
 private:
     int32_t queueJpegSetting(uint32_t out_buf_index, metadata_buffer_t *metadata,

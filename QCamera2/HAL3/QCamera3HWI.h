@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2017, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2012-2019, The Linux Foundation. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are
@@ -497,7 +497,7 @@ private:
     QCameraPerfLockMgr mPerfLockMgr;
     QCameraThermalAdapter &m_thermalAdapter;
     uint32_t mChannelHandle;
-
+    uint32_t mPicChannelHandle;
     void saveExifParams(metadata_buffer_t *metadata);
     mm_jpeg_exif_params_t mExifParams;
 
@@ -634,6 +634,7 @@ public:
     QCamera3QCfaRawChannel *mQCFARawChannel;
     bool m_bQuadraCfaRequest;
     QCameraFOVControl *m_pFovControl;
+    bool isSecureMode() {return m_bIsSecureMode;}
 private:
     uint32_t mFirstFrameNumberInBatch;
     camera3_stream_t mDummyBatchStream;
@@ -739,6 +740,8 @@ private:
     cam_fallback_mode_t mFallbackMode;
     bool mLPMEnable;
     cam_rtb_msg_type_t mRTBStatus;
+    bool m_bIsSecureMode;
+    bool m_bStopPicChannel;
 };
 
 }; // namespace qcamera
