@@ -139,17 +139,18 @@
 #define GPS_PROCESSING_METHOD_SIZE 33
 #define EXIF_IMAGE_DESCRIPTION_SIZE 100
 
-#define MAX_INFLIGHT_REQUESTS  5
+#define MAX_INFLIGHT_REQUESTS  6
 #ifdef HAS_LOW_RAM
-#define MAX_INFLIGHT_BLOB      4
+#define MAX_INFLIGHT_BLOB      MAX_INFLIGHT_REQUESTS - 2
 #else
-#define MAX_INFLIGHT_BLOB      5
+#define MAX_INFLIGHT_BLOB      MAX_INFLIGHT_REQUESTS
 #endif
 #define MIN_INFLIGHT_REQUESTS  3
 #define MIN_INFLIGHT_60FPS_REQUESTS (6)
 #define MAX_INFLIGHT_REPROCESS_REQUESTS 1
 #define MAX_INFLIGHT_HFR_REQUESTS (48)
 #define MIN_INFLIGHT_HFR_REQUESTS (40)
+#define MAX_INFLIGHT_EIS_REQUESTS  10
 
 #define MAX_VIDEO_BUFFERS 30
 
@@ -194,6 +195,10 @@
 #define DUALCAM_CAMERA_CNT 2
 
 #define MAX_SECURE_BUFFERS  3
+
+#define CAM_GRALLOC_USAGE_PRIVATE_HEIF (UINT32_C(1) << 27)
+#define IS_USAGE_HEIF(usage) (((usage) & (CAM_GRALLOC_USAGE_PRIVATE_HEIF)) \
+        == (CAM_GRALLOC_USAGE_PRIVATE_HEIF))
 
 typedef uint64_t cam_feature_mask_t;
 
@@ -594,6 +599,7 @@ typedef struct {
     uint32_t min_stride;
     uint32_t min_scanline;
     cam_offset_info_t offset_info;
+    uint32_t usage;
 } cam_padding_info_t;
 
 typedef struct {
@@ -3134,6 +3140,7 @@ typedef enum {
     CAM_HAL_PP_TYPE_DUAL_FOV,            // dual camera Wide+Tele Dual FOV blending
     CAM_HAL_PP_TYPE_BOKEH,               // dual camera Wide+Tele Snapshot Bokeh
     CAM_HAL_PP_TYPE_CLEARSIGHT,          // dual camera Bayer+Mono Clearsight
+    CAM_HAL_PP_TYPE_SAT,
     CAM_HAL_PP_TYPE_MAX
 } cam_hal_pp_type_t;
 

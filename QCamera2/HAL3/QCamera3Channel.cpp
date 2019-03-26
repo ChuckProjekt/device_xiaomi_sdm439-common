@@ -4660,6 +4660,13 @@ void QCamera3PicChannel::configureMpo()
     m_bMpoEnabled = atoi(prop)?FALSE:TRUE;
     m_postprocessor.setMpoMode(m_bMpoEnabled);
 }
+void QCamera3PicChannel::stopPostProc()
+{
+    if(mPostProcStarted) {
+        m_postprocessor.stop();
+        mPostProcStarted = false;
+    }
+}
 
 /*===========================================================================
  * FUNCTION   : request
@@ -4765,6 +4772,9 @@ int32_t QCamera3PicChannel::request(buffer_handle_t *buffer,
                             qrcp::getDepthMapSize(mCamera3Stream->width,
                                                     mCamera3Stream->height,
                                                     dim.width, dim.height);
+#else
+                            dim.width = mCamera3Stream->width;
+                            dim.height = mCamera3Stream->height;
 #endif //ENABLE_QC_BOKEH
                             index = mJpegMemory.allocateOne(dim.width * dim.height);
                         }
