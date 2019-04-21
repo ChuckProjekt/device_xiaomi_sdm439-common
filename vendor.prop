@@ -6,6 +6,9 @@
 audio.deep_buffer.media=true
 audio.offload.min.duration.secs=30
 audio.offload.video=true
+af.fast_track_multiplier=1
+audio.adm.buffering.ms=3
+audio_hal.period_multiplier=2
 persist.vendor.audio.fluence.speaker=true
 persist.vendor.audio.fluence.voicecall=true
 persist.vendor.audio.fluence.voicerec=false
@@ -13,6 +16,7 @@ persist.vendor.audio.hw.binder.size_kbyte=1024
 ro.af.client_heap_size_kbyte=7168
 ro.vendor.audio.sdk.fluencetype=fluence
 ro.vendor.audio.sdk.ssr=false
+vendor.audio.adm.buffering.ms=3
 vendor.audio.flac.sw.decoder.24bit=true
 vendor.audio.hal.boot.timeout.ms=20000
 vendor.audio.hw.aac.encoder=true
