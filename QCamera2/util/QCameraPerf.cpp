@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2018, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without
 * modification, are permitted provided that the following conditions are
@@ -130,6 +130,16 @@ static int32_t perfLockParamsTakeSnapshot[] = {
     MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_1,    0x613,
     MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0,    0x613,
     MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_1,    0x613
+    #elif TARGET_TRINKET
+    //set CPU cloks to turbo
+    MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF,
+    MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF,
+    MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0,    0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0,    0xFFF,
+    MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0,    0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0,    0xFFF
     #else
     // Set little cluster cores to 1.555 GHz
     MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0x613,
@@ -183,6 +193,15 @@ static int32_t perfLockParamsTakeSnapshotsdm630[] = {
     MPCTLV3_MAX_ONLINE_CPU_CLUSTER_LITTLE,     0x0
 };
 
+static int32_t perfLockParamsFlush[] = {
+    // Disable power collapse and set CPU cloks to turbo
+    MPCTLV3_ALL_CPUS_PWR_CLPS_DIS,          0x1,
+    MPCTLV3_MAX_FREQ_CLUSTER_BIG_CORE_0,    0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_BIG_CORE_0,    0xFFF,
+    MPCTLV3_MAX_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF,
+    MPCTLV3_MIN_FREQ_CLUSTER_LITTLE_CORE_0, 0xFFF
+};
+
 PerfLockInfo QCameraPerfLock::mPerfLockInfo[] = {
     { //PERF_LOCK_OPEN_CAMERA
       perfLockParamsOpenCamera,
@@ -203,6 +222,9 @@ PerfLockInfo QCameraPerfLock::mPerfLockInfo[] = {
     { //PERF_LOCK_BOKEH_SNAPSHOT
       perfLockParamsBokehSnapshot,
       sizeof(perfLockParamsBokehSnapshot)/sizeof(int32_t) },
+    { //PERF_LOCK_FLUSH
+      perfLockParamsFlush,
+      sizeof(perfLockParamsFlush)/sizeof(int32_t) },
     };
 
 Mutex                QCameraPerfLockIntf::mMutex;
@@ -508,6 +530,11 @@ bool QCameraPerfLock::acquirePerfLock(
         return true;
     }
 
+    if (mPerfLockType == PERF_LOCK_POWERHINT_HFR) {
+        powerHintInternal(POWER_HINT_VIDEO_DECODE, true);
+        return true;
+    }
+
     if (isTimedOut()) {
         mHandle   = 0;
         mRefCount = 0;
@@ -556,6 +583,11 @@ bool QCameraPerfLock::releasePerfLock()
     if ((mPerfLockType == PERF_LOCK_POWERHINT_PREVIEW) ||
         (mPerfLockType == PERF_LOCK_POWERHINT_ENCODE)) {
         powerHintInternal(POWER_HINT_VIDEO_ENCODE, false);
+        return true;
+    }
+
+    if (mPerfLockType == PERF_LOCK_POWERHINT_HFR) {
+        powerHintInternal(POWER_HINT_VIDEO_DECODE, false);
         return true;
     }
 

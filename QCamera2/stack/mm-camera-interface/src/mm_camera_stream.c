@@ -606,6 +606,10 @@ int32_t mm_stream_fsm_inited(mm_stream_t *my_obj,
             break;
         }
         break;
+    case MM_STREAM_EVT_RELEASE:
+        mm_stream_deinit(my_obj);
+        memset(my_obj, 0, sizeof(mm_stream_t));
+        break;
     default:
         LOGE("invalid state (%d) for evt (%d), in(%p), out(%p)",
                     my_obj->state, evt, in_val, out_val);
@@ -1040,6 +1044,7 @@ int32_t mm_stream_init(mm_stream_t *my_obj)
     my_obj->map_ops.bundled_map_ops = mm_camera_bundled_map_stream_buf_ops;
     my_obj->map_ops.unmap_ops = mm_camera_unmap_stream_buf_ops;
     my_obj->map_ops.userdata = my_obj;
+    my_obj->is_stream_inited = 1;
     return rc;
 }
 
@@ -1047,12 +1052,16 @@ int32_t mm_stream_deinit(mm_stream_t *my_obj)
 {
     int32_t rc = 0;
     /* destroy mutex */
-    mm_muxer_frame_sync_queue_deinit(&my_obj->frame_sync.superbuf_queue);
-    pthread_mutex_destroy(&my_obj->frame_sync.sync_lock);
-    pthread_cond_destroy(&my_obj->buf_cond);
-    pthread_mutex_destroy(&my_obj->buf_lock);
-    pthread_mutex_destroy(&my_obj->cb_lock);
-    pthread_mutex_destroy(&my_obj->cmd_lock);
+    LOGH("stream inited %d",my_obj->is_stream_inited);
+    if (my_obj->is_stream_inited) {
+        mm_muxer_frame_sync_queue_deinit(&my_obj->frame_sync.superbuf_queue);
+        pthread_mutex_destroy(&my_obj->frame_sync.sync_lock);
+        pthread_cond_destroy(&my_obj->buf_cond);
+        pthread_mutex_destroy(&my_obj->buf_lock);
+        pthread_mutex_destroy(&my_obj->cb_lock);
+        pthread_mutex_destroy(&my_obj->cmd_lock);
+        my_obj->is_stream_inited = 0;
+    }
 
     return rc;
 }
@@ -4081,15 +4090,38 @@ int32_t mm_stream_calc_offset_video(cam_stream_info_t *stream_info,
 #ifdef VENUS_PRESENT
             // using Venus
             if (stream_info->stream_type != CAM_STREAM_TYPE_OFFLINE_PROC) {
-                stride = VENUS_Y_STRIDE(COLOR_FMT_NV12, dim->width);
-                scanline = VENUS_Y_SCANLINES(COLOR_FMT_NV12, dim->height);
+                if(IS_USAGE_HEIF(padding->usage))
+                {
+#ifdef COLOR_FMT_NV12_512
+                    stride = VENUS_Y_STRIDE(COLOR_FMT_NV12_512, dim->width);
+                    scanline = VENUS_Y_SCANLINES(COLOR_FMT_NV12_512, dim->height);
+#else
+                    stride = PAD_TO_SIZE(dim->width, padding->width_padding);
+                    scanline = PAD_TO_SIZE(dim->height, padding->height_padding);
+#endif //COLOR_FMT_NV12_512
+                } else {
+                    stride = VENUS_Y_STRIDE(COLOR_FMT_NV12, dim->width);
+                    scanline = VENUS_Y_SCANLINES(COLOR_FMT_NV12, dim->height);
+                }
             } else {
                 stride = PAD_TO_SIZE(dim->width, padding->width_padding);
                 scanline = PAD_TO_SIZE(dim->height, padding->height_padding);
             }
 
-            buf_planes->plane_info.frame_len =
-                    VENUS_BUFFER_SIZE(COLOR_FMT_NV12, stride, scanline);
+            if(IS_USAGE_HEIF(padding->usage))
+            {
+#ifdef COLOR_FMT_NV12_512
+                buf_planes->plane_info.frame_len =
+                        VENUS_BUFFER_SIZE(COLOR_FMT_NV12_512, stride, scanline);
+#else
+                buf_planes->plane_info.frame_len =
+                        PAD_TO_SIZE((uint32_t)(stride*scanline), CAM_PAD_TO_512);
+#endif //COLOR_FMT_NV12_512
+            }else {
+                buf_planes->plane_info.frame_len =
+                        VENUS_BUFFER_SIZE(COLOR_FMT_NV12, stride, scanline);
+            }
+
             buf_planes->plane_info.num_planes = 2;
             buf_planes->plane_info.mp[0].len = (uint32_t)(stride * scanline);
             buf_planes->plane_info.mp[0].offset = 0;
@@ -4100,12 +4132,18 @@ int32_t mm_stream_calc_offset_video(cam_stream_info_t *stream_info,
             buf_planes->plane_info.mp[0].width = dim->width;
             buf_planes->plane_info.mp[0].height = dim->height;
             if (stream_info->stream_type != CAM_STREAM_TYPE_OFFLINE_PROC) {
-                stride = VENUS_UV_STRIDE(COLOR_FMT_NV12, dim->width);
-                scanline = VENUS_UV_SCANLINES(COLOR_FMT_NV12, dim->height);
                 if(IS_USAGE_HEIF(padding->usage))
                 {
-                    stride = PAD_TO_SIZE(stride, padding->width_padding);
-                    scanline = PAD_TO_SIZE(scanline, padding->height_padding);
+#ifdef COLOR_FMT_NV12_512
+                    stride = VENUS_UV_STRIDE(COLOR_FMT_NV12_512, dim->width);
+                    scanline = VENUS_UV_SCANLINES(COLOR_FMT_NV12_512, dim->height);
+#else
+                    stride = PAD_TO_SIZE(dim->width, padding->width_padding);
+                    scanline = PAD_TO_SIZE(dim->height, padding->height_padding);
+#endif //COLOR_FMT_NV12_512
+                }else {
+                    stride = VENUS_UV_STRIDE(COLOR_FMT_NV12, dim->width);
+                    scanline = VENUS_UV_SCANLINES(COLOR_FMT_NV12, dim->height);
                 }
             } else {
                 stride = PAD_TO_SIZE(dim->width, padding->width_padding);
@@ -5239,7 +5277,7 @@ int32_t mm_stream_handle_cache_ops(mm_stream_t* my_obj,
                 buf->buf_idx, my_obj->mem_vtbl.user_data);
     }
 
-    LOGH("[CACHE_OPS] Stream type: %d buf index: %d cache ops flags: 0x%x",
+    LOGD("[CACHE_OPS] Stream type: %d buf index: %d cache ops flags: 0x%x",
             buf->stream_type, buf->buf_idx, buf->cache_flags);
 
     if (rc != 0) {

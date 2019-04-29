@@ -50,6 +50,9 @@ namespace qcamera {
 #define IS_USAGE_SECURE(usage) (((usage) & (GRALLOC_USAGE_PROTECTED)) \
         == (GRALLOC_USAGE_PROTECTED))
 
+#define IS_USAGE_UBWC(usage) (((usage) & (GRALLOC_USAGE_PRIVATE_ALLOC_UBWC)) \
+        == (GRALLOC_USAGE_PRIVATE_ALLOC_UBWC))
+
 class QCamera3Channel;
 class QCamera3ProcessingChannel;
 
@@ -91,6 +94,7 @@ class QCamera3ProcessingChannel;
         bool is_crop_valid;
         cam_rect_t crop;
         mm_jpeg_image_type_t encode_type;
+        bool zsl_snapshot;
     } jpeg_settings_t;
 
     typedef struct {

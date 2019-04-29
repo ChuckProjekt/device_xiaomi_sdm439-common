@@ -99,6 +99,7 @@ QCamera3PostProcessor::QCamera3PostProcessor(QCamera3ProcessingChannel* ch_ctrl)
     pthread_mutex_init(&mReprocJobLock, NULL);
     pthread_mutex_init(&mHDRJobLock, NULL);
     pthread_cond_init(&mProcChStopCond, NULL);
+    max_pic_size = {0,0};
 }
 
 /*===========================================================================
@@ -153,6 +154,7 @@ int32_t QCamera3PostProcessor::init(QCamera3StreamMem *memory)
         LOGH("Check and create HAL PP manager if not present");
         createHalPPManager();
     }
+    mFreeJpegSessions.clear();
     return NO_ERROR;
 }
 
@@ -222,7 +224,6 @@ int32_t QCamera3PostProcessor::initJpeg(jpeg_encode_callback_t jpeg_cb,
     mJpegCB = jpeg_cb;
     mMpoCB = mpo_cb;
     mJpegUserData = user_data;
-    mm_dimension max_size;
 
     mMpoInputData.clear();
 
@@ -233,9 +234,9 @@ int32_t QCamera3PostProcessor::initJpeg(jpeg_encode_callback_t jpeg_cb,
     }
 
     // set max pic size
-    memset(&max_size, 0, sizeof(mm_dimension));
-    max_size.w =  max_pic_dim->width;
-    max_size.h =  max_pic_dim->height;
+    memset(&max_pic_size, 0, sizeof(mm_dimension));
+    max_pic_size.w =  max_pic_dim->width;
+    max_pic_size.h =  max_pic_dim->height;
 
     // Pass OTP calibration data to JPEG
     QCamera3HardwareInterface* hal_obj = (QCamera3HardwareInterface*)m_parent->mUserData;
@@ -244,12 +245,7 @@ int32_t QCamera3PostProcessor::initJpeg(jpeg_encode_callback_t jpeg_cb,
     memcpy(&mJpegMetadata.otp_calibration_data,
             hal_obj->getRelatedCalibrationData(),
             sizeof(cam_related_system_calibration_data_t));
-    mJpegClientHandle = jpeg_open(&mJpegHandle, &mMpoHandle, max_size, &mJpegMetadata);
-
-    if (!mJpegClientHandle) {
-        LOGE("jpeg_open did not work");
-        return UNKNOWN_ERROR;
-    }
+    m_dataProcTh.sendCmd(CAMERA_CMD_TYPE_INIT_JPEG, FALSE, TRUE);
     return NO_ERROR;
 }
 
@@ -317,7 +313,8 @@ int32_t QCamera3PostProcessor::start(const reprocess_config_t &config)
         }
 
         if (hal_obj->isDualCamera() &&
-        (hal_obj->getHalPPType() != CAM_HAL_PP_TYPE_NONE)) {
+        (hal_obj->getHalPPType() != CAM_HAL_PP_TYPE_NONE
+        && hal_obj->getHalPPType() != CAM_HAL_PP_TYPE_SAT)) {
             // HALPP type might have changed, ensure we have right pp block
             rc = initHalPPManager();
             if (rc != NO_ERROR) {
@@ -995,6 +992,7 @@ int32_t QCamera3PostProcessor::processJpegSettingData(
         LOGE("invalid jpeg settings pointer");
         return -EINVAL;
     }
+    m_jpegSettingsQ.init();
     return m_jpegSettingsQ.enqueue((void *)jpeg_settings);
 }
 
@@ -1313,6 +1311,11 @@ int32_t QCamera3PostProcessor::processPPData(mm_camera_super_buf_t *frame,
         return NO_ERROR;
     }
 
+    if (job->jpeg_settings->zsl_snapshot) {
+        m_parent->freeBufferForFrame(job->src_frame);
+        job->src_frame = NULL;
+    }
+
     LOGH("pp_ch_idx:%d, total_pp_count:%d, frame number:%d", job->pp_ch_idx,
             m_ppChannelCnt, job->frameNumber);
     if ((job->pp_ch_idx+1) < m_ppChannelCnt) {
@@ -1440,9 +1443,31 @@ qcamera_hal3_jpeg_data_t *QCamera3PostProcessor::findJpegJobByJobId(uint32_t job
         return NULL;
     }
 
+    QCamera3HardwareInterface* hal_obj = (QCamera3HardwareInterface*)m_parent->mUserData;
+    if(!hal_obj->needHALPP())
+    {
+        mFreeJpegSessions.push_back(mJpegSessionId);
+        mJpegSessionId = 0;
+    }
     // currely only one jpeg job ongoing, so simply dequeue the head
     job = (qcamera_hal3_jpeg_data_t *)m_ongoingJpegQ.dequeue();
     return job;
+}
+
+int QCamera3PostProcessor::releaseFreeJpegSessions()
+{
+    int ret = NO_ERROR;
+    auto it = mFreeJpegSessions.begin();
+    while(it != mFreeJpegSessions.end())
+    {
+        ret = mJpegHandle.destroy_session(*it);
+        if(ret != NO_ERROR)
+        {
+            LOGE("failed to destroy jpeg session %d, non-fatal", *it);
+        }
+        it = mFreeJpegSessions.erase(it);
+    }
+    return ret;
 }
 
 /*===========================================================================
@@ -2864,7 +2889,6 @@ void *QCamera3PostProcessor::dataProcessRoutine(void *data)
             pme->m_inputFWKPPQ.init();
             pme->m_inputMultiReprocQ.init();
             pme->m_inputMetaQ.init();
-            pme->m_jpegSettingsQ.init();
             cam_sem_post(&cmdThread->sync_sem);
 
             break;
@@ -2880,7 +2904,6 @@ void *QCamera3PostProcessor::dataProcessRoutine(void *data)
 
                     pme->releaseJpegJobData(jpeg_job);
                     free(jpeg_job);
-
                     jpeg_job = (qcamera_hal3_jpeg_data_t *)pme->m_ongoingJpegQ.dequeue();
                 }
 
@@ -2889,6 +2912,8 @@ void *QCamera3PostProcessor::dataProcessRoutine(void *data)
                     pme->mJpegHandle.destroy_session(pme->mJpegSessionId);
                     pme->mJpegSessionId = 0;
                 }
+
+                pme->releaseFreeJpegSessions();
 
                 needNewSess = TRUE;
 
@@ -2973,6 +2998,7 @@ void *QCamera3PostProcessor::dataProcessRoutine(void *data)
                                 pme->releaseJpegJobData(jpeg_job);
                                 free(jpeg_job);
                             }
+                            pme->releaseFreeJpegSessions();
                         }
                     }
 
@@ -3228,6 +3254,17 @@ void *QCamera3PostProcessor::dataProcessRoutine(void *data)
                             (qcamera_fwk_input_pp_data_t *) pme->m_inputFWKPPQ.dequeue();
                     if (NULL != fwk_frame) {
                         free(fwk_frame);
+                    }
+                }
+            }
+            break;
+        case CAMERA_CMD_TYPE_INIT_JPEG:{
+                if(pme->mJpegClientHandle <= 0)
+                {
+                    pme->mJpegClientHandle = jpeg_open(&pme->mJpegHandle, &pme->mMpoHandle,
+                                               pme->max_pic_size, &pme->mJpegMetadata);
+                    if (!pme->mJpegClientHandle) {
+                        LOGE("jpeg_open did not work");
                     }
                 }
             }

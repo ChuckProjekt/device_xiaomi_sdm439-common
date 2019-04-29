@@ -1,4 +1,4 @@
-/* Copyright (c) 2015-2016, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2015-2019, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -57,7 +57,9 @@ typedef enum {
     PERF_LOCK_OFFLINE_REPROC  = PERF_LOCK_TAKE_SNAPSHOT,
     PERF_LOCK_POWERHINT_PREVIEW,
     PERF_LOCK_POWERHINT_ENCODE,
+    PERF_LOCK_POWERHINT_HFR,
     PERF_LOCK_BOKEH_SNAPSHOT,
+    PERF_LOCK_FLUSH,
     PERF_LOCK_COUNT
 } PerfLockEnum;
 

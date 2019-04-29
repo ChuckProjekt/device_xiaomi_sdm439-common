@@ -352,6 +352,7 @@ typedef struct mm_stream {
     uint8_t is_res_shared;
     uint8_t is_deferred;
     uint8_t is_frame_shared;
+    uint8_t is_stream_inited;
 } mm_stream_t;
 
 /* mm_channel */
@@ -425,6 +426,7 @@ typedef struct {
     uint32_t frame_idx;
     /* unmatched meta idx needed in case of low priority queue */
     uint32_t unmatched_meta_idx;
+    uint32_t meta_frame_idx;
 } mm_channel_queue_node_t;
 
 typedef struct {
@@ -564,6 +566,7 @@ typedef struct mm_channel {
     struct mm_channel *master_ch_obj; /*Master channel of this channel*/
     uint8_t num_s_cnt;
     struct mm_channel *aux_ch_obj[MM_CAMERA_MAX_AUX_CAMERA];  /*Slave channel of this channel*/
+    uint8_t match_meta;
 } mm_channel_t;
 
 typedef struct {
