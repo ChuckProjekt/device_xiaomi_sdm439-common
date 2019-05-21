@@ -49,7 +49,7 @@
 #include "QCameraDualCamSettings.h"
 #include "QCameraFOVControl.h"
 #include "QCameraThermalAdapter.h"
-
+#include "QCameraPerfTranslator.h"
 
 extern "C" {
 #include "mm_camera_interface.h"
@@ -396,7 +396,7 @@ private:
         ERROR,
         DEINIT
     } State;
-
+    FSMDB_t *FSM;
     int openCamera();
     int closeCamera();
     int flush(bool restartChannels);
@@ -439,7 +439,7 @@ private:
     bool isMultiFrameSnapshotRequest(camera3_capture_request *request);
     int32_t setMobicat();
 
-    int32_t getSensorOutputSize(cam_dimension_t &sensor_dim, uint32_t cam_type = CAM_TYPE_MAIN);
+    int32_t getSensorOutputSize(cam_sensor_config_t &sensor_dim, uint32_t cam_type = CAM_TYPE_MAIN);
     int32_t setHalFpsRange(const CameraMetadata &settings,
             metadata_buffer_t *hal_metadata);
     int32_t extractSceneMode(const CameraMetadata &frame_settings, uint8_t metaMode,
@@ -585,6 +585,7 @@ private:
         // metadata needs to be consumed by the corresponding stream
         // in order to generate the buffer.
         bool need_metadata;
+        bool isZSL;
     } RequestedBufferInfo;
 
     typedef struct {
@@ -653,6 +654,7 @@ private:
 
     //mutex for serialized access to camera3_device_ops_t functions
     pthread_mutex_t mMutex;
+    Mutex mMultiFrameReqLock;
 
     //condition used to signal flush after buffers have returned
     pthread_cond_t mBuffersCond;
@@ -826,6 +828,9 @@ private:
 
     bool mHALZSL;
     bool mFlashNeeded;
+    cam_perf_info_t mSettingInfo[CONFIG_INDEX_MAX];
+    uint8_t mSessionId;
+    cam_hfr_mode_t mHFRMode;
 };
 
 }; // namespace qcamera

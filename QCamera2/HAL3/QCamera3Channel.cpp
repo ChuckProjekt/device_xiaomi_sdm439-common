@@ -1053,6 +1053,7 @@ void QCamera3ProcessingChannel::streamCbRoutine(mm_camera_super_buf_t *super_fra
                         if (frame->bufs[0]->buf_idx == oldestBufIndex) {
                             LOGE("buffer already in mOutOfSequenceBuffers list");
                             frameIndex = oldestBufIndex;
+                            super_frame = *it;
                             mOutOfSequenceBuffers.erase(it);
                             break;
                         }
@@ -4634,6 +4635,11 @@ int32_t QCamera3PicChannel::stop()
         return rc;
     }
 
+    if (mAllocThread != 0) {
+        pthread_join(mAllocThread,NULL);
+        mAllocThread = 0;
+    }
+
     QCamera3ProcessingChannel::stop();
 
     stopChannel();
@@ -5085,6 +5091,7 @@ int32_t QCamera3PicChannel::request(buffer_handle_t *buffer,
 int32_t QCamera3PicChannel::requestZSLBuf(uint32_t frameNumber, uint32_t numBuf)
 {
     uint32_t channel_handle = m_handle;
+    LOGH("frameNumber %d", frameNumber);
     QCamera3HardwareInterface* hal_obj = (QCamera3HardwareInterface*)mUserData;
     if((hal_obj->getHalPPType() == CAM_HAL_PP_TYPE_BOKEH) && hal_obj->needHALPP()) {
         if (!mAuxPicChannel) {
@@ -5263,6 +5270,9 @@ QCamera3StreamMem* QCamera3PicChannel::getStreamBufs(uint32_t len)
 
 void QCamera3PicChannel::startDeferredAllocation() {
     createAllocThread();
+    if(mAuxPicChannel) {
+        mAuxPicChannel->createAllocThread();
+    }
 }
 
 int QCamera3PicChannel::allocateZSLBuffers()
@@ -5286,6 +5296,64 @@ int QCamera3PicChannel::allocateZSLBuffers()
     LOGH(": X");
     return rc;
 }
+
+int QCamera3PicChannel::returnBufferError(uint32_t frameNumber)
+{
+    int32_t bufIdx;
+    LOGH(": E numbufs %d", mCamera3Stream->max_buffers);
+
+    bufIdx = mMemory.getBufferIndex(frameNumber);
+    if(bufIdx < 0)
+    {
+        LOGE("X: Buffer not found for frame:%d", frameNumber);
+        return -1;
+    }
+    buffer_handle_t *buf = (buffer_handle_t *)mMemory.getBufferHandle(bufIdx);
+    mMemory.unregisterBuffer(bufIdx);
+
+    camera3_stream_buffer_t result_buffer;
+    memset(&result_buffer, 0, sizeof(camera3_stream_buffer_t));
+
+    result_buffer.stream = mCamera3Stream;
+    result_buffer.buffer = buf;
+    result_buffer.status = CAMERA3_BUFFER_STATUS_ERROR;
+    result_buffer.acquire_fence = -1;
+    result_buffer.release_fence = -1;
+
+    mChannelCB(NULL,
+            &result_buffer,
+            (uint32_t)frameNumber,
+            false,
+            mUserData);
+
+    return NO_ERROR;
+}
+
+void QCamera3PicChannel::releaseSuperBuf(mm_camera_super_buf_t *recvd_frame)
+{
+    for(uint32_t i =0; i< recvd_frame->num_bufs; i++)
+    {
+        if (recvd_frame->bufs[i]->stream_type == CAM_STREAM_TYPE_SNAPSHOT) {
+            mm_camera_super_buf_t *snap_buf =
+                     (mm_camera_super_buf_t *) malloc(sizeof(mm_camera_super_buf_t));
+            *snap_buf = *recvd_frame;
+            snap_buf->num_bufs = 1;
+            snap_buf->bufs[0] = recvd_frame->bufs[i];
+            bufDone(snap_buf);
+            free(snap_buf);
+        } else if(recvd_frame->bufs[i]->stream_type == CAM_STREAM_TYPE_METADATA) {
+            mm_camera_super_buf_t *meta_buf =
+                     (mm_camera_super_buf_t *) malloc(sizeof(mm_camera_super_buf_t));
+            *meta_buf = *recvd_frame;
+            meta_buf->num_bufs = 1;
+            meta_buf->ch_id = m_pMetaChannel->getMyHandle();
+            meta_buf->bufs[0] = recvd_frame->bufs[i];
+            m_pMetaChannel->bufDone(meta_buf);
+            free(meta_buf);
+        }
+    }
+}
+
 
 void* buffer_alloc_thread (void* data)
 {
@@ -5316,11 +5384,6 @@ int QCamera3PicChannel::createAllocThread()
 void QCamera3PicChannel::putStreamBufs()
 {
     QCamera3ProcessingChannel::putStreamBufs();
-
-    if (mAllocThread != 0) {
-        pthread_join(mAllocThread,NULL);
-        mAllocThread = 0;
-    }
 
     mYuvMemory->deallocate();
     delete mYuvMemory;
@@ -5494,6 +5557,7 @@ reprocess_type_t QCamera3PicChannel::getReprocessType()
 int32_t QCamera3PicChannel::timeoutFrame(uint32_t frameNumber)
 {
     int32_t bufIdx;
+    LOGH("frameNumber %d", frameNumber);
     bufIdx = mYuvMemory->getBufferIndex(frameNumber);
     if (bufIdx < 0) {
         if(mZSL)
@@ -5520,6 +5584,7 @@ int32_t QCamera3PicChannel::timeoutFrame(uint32_t frameNumber)
 int32_t QCamera3PicChannel::notifyDropForPendingBuffer(uint32_t frameNumber,
                             buffer_handle_t *buf)
 {
+    LOGH("frameNumber %d", frameNumber);
     QCamera3HardwareInterface* hal_obj = (QCamera3HardwareInterface*)mUserData;
     bool found = false;
     for (auto &req : hal_obj->mPendingBuffersMap.mPendingBuffersInRequest) {
@@ -5529,14 +5594,6 @@ int32_t QCamera3PicChannel::notifyDropForPendingBuffer(uint32_t frameNumber,
             {
                 if(info->buffer == buf)
                 {
-                    camera3_notify_msg_t notify_msg;
-                    memset(&notify_msg, 0, sizeof(camera3_notify_msg_t));
-                    notify_msg.type = CAMERA3_MSG_ERROR;
-                    notify_msg.message.error.error_code = CAMERA3_MSG_ERROR_BUFFER;
-                    notify_msg.message.error.error_stream = info->stream;
-                    notify_msg.message.error.frame_number = req.frame_number;
-                    hal_obj->orchestrateNotify(&notify_msg);
-
                     camera3_capture_result_t result;
                     memset(&result, 0, sizeof(camera3_capture_result_t));
                     camera3_stream_buffer_t result_buffer;
@@ -5708,28 +5765,28 @@ void QCamera3PicChannel::ZSLChannelCb(mm_camera_super_buf_t *recvd_frame)
             LOGH("Processing ZSL superbuf for frame_number %d", frameNum);
         } else {
             LOGE("Error ! Received zsl callback without corresponding request entry");
-            for(uint32_t i =0; i< recvd_frame->num_bufs; i++)
-            {
-                if (recvd_frame->bufs[i]->stream_type == CAM_STREAM_TYPE_SNAPSHOT) {
-                    mm_camera_super_buf_t *snap_buf =
-                             (mm_camera_super_buf_t *) malloc(sizeof(mm_camera_super_buf_t));
-                    *snap_buf = *recvd_frame;
-                    snap_buf->num_bufs = 1;
-                    snap_buf->bufs[0] = recvd_frame->bufs[i];
-                    bufDone(snap_buf);
-                    free(snap_buf);
-                }else if(recvd_frame->bufs[i]->stream_type == CAM_STREAM_TYPE_METADATA) {
-                    mm_camera_super_buf_t *meta_buf =
-                             (mm_camera_super_buf_t *) malloc(sizeof(mm_camera_super_buf_t));
-                    *meta_buf = *recvd_frame;
-                    meta_buf->num_bufs = 1;
-                    meta_buf->ch_id = m_pMetaChannel->getMyHandle();
-                    meta_buf->bufs[0] = recvd_frame->bufs[i];
-                    m_pMetaChannel->bufDone(meta_buf);
-                    free(meta_buf);
+            releaseSuperBuf(recvd_frame);
+            return;
+        }
+    }
+
+    //detect frame drop
+    for (uint32_t i = 0; i < recvd_frame->num_bufs; i++) {
+        if (recvd_frame->bufs[i]->stream_type == CAM_STREAM_TYPE_METADATA) {
+            metadata_buffer_t *metadata = (metadata_buffer_t *)recvd_frame->bufs[i]->buffer;
+            uint32_t *p_frame_number = POINTER_OF_META(CAM_INTF_META_FRAME_NUMBER, metadata);
+            IF_META_AVAILABLE(cam_stream_ID_t, p_cam_frame_drop, CAM_INTF_META_FRAME_DROPPED,
+                    metadata) {
+                LOGH("Dropped frame info for frame_number %d", *p_frame_number);
+                for (uint32_t k = 0; k < p_cam_frame_drop->num_streams; k++) {
+                    if (mStreams[0]->getMyServerID() ==
+                            p_cam_frame_drop->stream_request[k].streamID) {
+                        returnBufferError(frameNum);
+                        releaseSuperBuf(recvd_frame);
+                        return;
+                    }
                 }
             }
-            return;
         }
     }
 
