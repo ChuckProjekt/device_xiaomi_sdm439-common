@@ -53,6 +53,9 @@
 #define CEILING4(X)  (((X) + 0x0003) & 0xFFFC)
 #define CEILING2(X)  (((X) + 0x0001) & 0xFFFE)
 
+#define IS_VALID_PTR(P) (P != NULL)
+#define IS_EQUAL(X,Y) (X == Y)
+
 #define MAX_ZOOMS_CNT 91
 #define ZOOM_MIN 4096        // min zoom value: 1x
 #define ZOOM_MAX 4096 * 8 // max zoom value: 8x
@@ -141,6 +144,7 @@
 #define EXIF_IMAGE_DESCRIPTION_SIZE 100
 
 #define MAX_INFLIGHT_REQUESTS  6
+#define MAX_PIPELINE_DEPTH 6
 #ifdef HAS_LOW_RAM
 #define MAX_INFLIGHT_BLOB      MAX_INFLIGHT_REQUESTS - 2
 #else
@@ -3179,5 +3183,11 @@ typedef struct {
     uint8_t fd;
     uint8_t tnr;
 } cam_perf_info_t;
+
+typedef enum {
+    CAM_HAL3_ZSL_TYPE_NONE,
+    CAM_HAL3_ZSL_TYPE_SNAPSHOT,
+    CAM_HAL3_ZSL_TYPE_CALLBACK
+}zsl_stream_type_t;
 
 #endif /* __QCAMERA_TYPES_H__ */
