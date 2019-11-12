@@ -25,15 +25,13 @@
 #define LEDS            "/sys/class/leds/"
 
 #define LCD_LED         LEDS "lcd-backlight/"
-#define RED_LED         LEDS "red/"
-#define GREEN_LED       LEDS "green/"
-#define BLUE_LED        LEDS "blue/"
+#define WHITE_LED       LEDS "red/"
 
 #define BREATH          "breath"
 #define BRIGHTNESS      "brightness"
-
-#define MAX_LED_BRIGHTNESS    255
-#define MAX_LCD_BRIGHTNESS    255
+#define DELAY_OFF       "delay_off"
+#define DELAY_ON        "delay_on"
+#define MAX_BRIGHTNESS  "max_brightness"
 
 namespace {
 /*
@@ -52,6 +50,25 @@ static void set(std::string path, std::string value) {
 
 static void set(std::string path, int value) {
     set(path, std::to_string(value));
+}
+
+static int get(std::string path) {
+    std::ifstream file(path);
+    int value;
+
+    if (!file.is_open()) {
+        ALOGW("failed to read from %s", path.c_str());
+        return 0;
+    }
+
+    file >> value;
+    return value;
+}
+
+static int getMaxBrightness(std::string path) {
+    int value = get(path);
+    ALOGW("Got max brightness %d", value);
+    return value;
 }
 
 static uint32_t getBrightness(const LightState& state) {
@@ -86,77 +103,26 @@ static inline uint32_t getScaledBrightness(const LightState& state, uint32_t max
 }
 
 static void handleBacklight(const LightState& state) {
-    uint32_t brightness = getScaledBrightness(state, MAX_LCD_BRIGHTNESS);
+    uint32_t brightness = getScaledBrightness(state, getMaxBrightness(LCD_LED MAX_BRIGHTNESS));
     set(LCD_LED BRIGHTNESS, brightness);
 }
 
 static void handleNotification(const LightState& state) {
-    int breath, onMs, offMs, red, green, blue;
-    uint32_t alpha;
+    uint32_t whiteBrightness = getScaledBrightness(state, getMaxBrightness(WHITE_LED MAX_BRIGHTNESS));
 
-    // Extract brightness from AARRGGBB
-    alpha = (state.color >> 24) & 0xff;
-    red = (state.color >> 16) & 0xff;
-    green = (state.color >> 8) & 0xff;
-    blue = state.color & 0xff;
+    /* Disable blinking */
+    set(WHITE_LED BREATH, 0);
 
-    // Scale RGB brightness if Alpha brightness is not 0xFF
-    if (alpha != 0xff) {
-        red = (red * alpha) / 0xff;
-        green = (green * alpha) / 0xff;
-        blue = (blue * alpha) / 0xff;
-    }
+    if (state.flashMode == Flash::TIMED) {
 
-    switch (state.flashMode) {
-        case Flash::TIMED:
-            onMs = state.flashOnMs;
-            offMs = state.flashOffMs;
-            break;
-        case Flash::NONE:
-        default:
-            onMs = 0;
-            offMs = 0;
-            break;
-    }
+        /* White */
+        set(WHITE_LED DELAY_OFF, state.flashOffMs);
+        set(WHITE_LED DELAY_ON, state.flashOnMs);
 
-    if (onMs > 0 && offMs > 0) {
-        /*
-         * if ON time == OFF time
-         *   use breath mode 2
-         * else
-         *   use breath mode 1
-         */
-        if (onMs == offMs) {
-            breath = 2;
-        } else {
-            breath = 1;
-        }
+        /* Enable blinking */
+        set(WHITE_LED BREATH, 1);
     } else {
-        breath = 0;
-    }
-
-    /* Disable blinking. */
-    set(RED_LED BREATH, 0);
-    set(GREEN_LED BREATH, 0);
-    set(BLUE_LED BREATH, 0);
-
-    /* Enable blinking */
-    if (breath){
-        if (red)
-            set(RED_LED BREATH, breath);
-        if (green)
-            set(GREEN_LED BREATH, breath);
-        if (blue)
-            set(BLUE_LED BREATH, breath);
-    } else {
-        if (red == 0 && green == 0 && blue == 0) {
-            set(RED_LED BREATH, 0);
-            set(GREEN_LED BREATH, 0);
-            set(BLUE_LED BREATH, 0);
-        }
-        set(RED_LED BRIGHTNESS, red);
-        set(GREEN_LED BRIGHTNESS, green);
-        set(BLUE_LED BRIGHTNESS, blue);
+        set(WHITE_LED BRIGHTNESS, whiteBrightness);
     }
 }
 
@@ -181,7 +147,8 @@ namespace V2_0 {
 namespace implementation {
 
 Return<Status> Light::setLight(Type type, const LightState& state) {
-    LightStateHandler handler = nullptr;
+    LightStateHandler handler;
+    bool handled = false;
 
     /* Lock global mutex until light state is updated. */
     std::lock_guard<std::mutex> lock(globalLock);
@@ -203,12 +170,15 @@ Return<Status> Light::setLight(Type type, const LightState& state) {
     for (LightBackend& backend : backends) {
         if (handler == backend.handler && isLit(backend.state)) {
             handler(backend.state);
-            return Status::SUCCESS;
+            handled = true;
+            break;
         }
     }
 
     /* If no type has been lit up, then turn off the hardware. */
-    handler(state);
+    if (!handled) {
+        handler(state);
+    }
 
     return Status::SUCCESS;
 }
