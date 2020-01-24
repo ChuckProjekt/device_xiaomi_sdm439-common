@@ -120,6 +120,7 @@ ro.vendor.qti.va_aosp.support=1
 av.debug.disable.pers.cache=1
 debug.stagefright.omx_default_rank.sw-audio=1
 debug.stagefright.omx_default_rank=0
+media.stagefright.thumbnail.prefer_hw_codecs=true
 media.aac_51_output_enabled=true
 media.msm8956hw=0
 media.stagefright.audio.sink=280
