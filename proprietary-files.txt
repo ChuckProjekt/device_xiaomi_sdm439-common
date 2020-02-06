@@ -656,7 +656,6 @@ vendor/lib64/hw/vendor.qti.hardware.alarm@1.0-impl.so
 vendor/lib64/vendor.qti.hardware.alarm@1.0.so
 
 # Power-off charging daemon - from olive and moved to vendor
-vendor/bin/chargeonlymode|03d5d4003a405d8ffdd3a4ced985ef09872aaeee
 vendor/lib64/libsuspend.so|0f88514533dcb9a7697fa3f73b4e085ef56dd0d9
 vendor/res/charger/0.png|5d9d7ae8afa81bf22b08768f8558e87408ecb733
 vendor/res/charger/10.png|85ccc6195afe7d4d3c455e2a30723cd5a77df693
