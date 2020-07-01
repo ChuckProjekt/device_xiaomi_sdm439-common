@@ -163,6 +163,7 @@ TARGET_USES_INTERACTION_BOOST := true
 BOARD_USES_QCOM_HARDWARE := true
 
 # Recovery
+BOARD_INCLUDE_RECOVERY_DTBO := true
 TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/rootdir/etc/fstab.recovery.qcom
 
 # RIL
