@@ -1,2 +1,5 @@
+# Display
+debug.performance.tuning=1
+
 # Fwk detect
 ro.vendor.qti.va_aosp.support=1
