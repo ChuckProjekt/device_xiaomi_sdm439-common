@@ -1,2 +1,6 @@
 # Fwk detect
 ro.vendor.qti.va_aosp.support=1
+
+# SurfaceFlinger
+ro.surface_flinger.vsync_event_phase_offset_ns=2000000
+ro.surface_flinger.vsync_sf_event_phase_offset_ns=6000000
