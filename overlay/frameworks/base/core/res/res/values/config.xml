@@ -562,4 +562,6 @@
     -->
     <integer name="config_keyChordPowerVolumeUp">1</integer>
 
+    <!-- Remote server that can provide NTP responses. -->
+    <string translatable="false" name="config_ntpServer">pool.ntp.org</string>
 </resources>
