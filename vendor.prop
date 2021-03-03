@@ -68,6 +68,10 @@ vendor.camera.hal1.packagelist=com.skype.raider,com.google.android.talk
 # Charger
 ro.charger.disable_init_blank=true
 
+# Chipset
+ro.soc.manufacturer=Qualcomm
+ro.soc.model=MSM8937
+
 # CNE
 persist.vendor.cne.feature=1
 
