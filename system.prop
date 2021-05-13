@@ -1,2 +1,7 @@
 # Fwk detect
 ro.vendor.qti.va_aosp.support=1
+
+# IORap
+ro.iorapd.enable=true
+iorapd.perfetto.enable=true
+iorapd.readahead.enable=true
