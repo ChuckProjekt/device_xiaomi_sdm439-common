@@ -36,6 +36,9 @@ vendor.voice.playback.conc.disabled=true
 vendor.voice.record.conc.disabled=false
 vendor.voice.voip.conc.disabled=true
 
+# Apex
+ro.apex.updatable=false
+
 # Audio Fluence
 persist.vendor.audio.fluence.speaker=true
 persist.vendor.audio.fluence.voicecall=true
