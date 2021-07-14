@@ -15,17 +15,16 @@ Basic | Spec Sheet
  Dimensions | 146.3 x 70.4 x 9.6 mm
  Display | 720 x 1520 pixels, 18:9 ratio, 5.45 inches (~295 ppi density)
  Rear camera | 12 MP, f/2.2, 1.25 μm , PDAF
- Front camera | 5 MP, f/2.2   
-   
+ Front camera | 5 MP, f/2.2 
+ 
 ## Device picture
 
 ![Xiaomi Redmi 8A Dual](https://quickrly.com/wp-content/uploads/2020/08/Redmi-8A-Dual-Sea-Blue-2GB-RAM-32GB-Storage-specs.jpg)
 
-## Copyright
-
 ```
 #
-# Copyright (C) 2020 The LineageOS Project
+# Copyright (C) 2017-2021 The LineageOS Project
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+```
