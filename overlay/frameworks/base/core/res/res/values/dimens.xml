@@ -23,4 +23,12 @@
     <!-- Radius of the software rounded corners at the bottom of the display in its natural
         orientation. If zero, the value of rounded_corner_radius is used. -->
     <dimen name="rounded_corner_radius_bottom">51.0px</dimen>
+
+    <!-- Height of the bottom navigation / system bar. -->
+    <dimen name="navigation_bar_height">40dp</dimen>
+    <!-- Height of the bottom navigation bar in portrait; often the same as @dimen/navigation_bar_height -->
+    <dimen name="navigation_bar_height_landscape">40dp</dimen>
+    <!-- Width of the navigation bar when it is placed vertically on the screen -->
+    <dimen name="navigation_bar_width">40dp</dimen>
+
 </resources>
