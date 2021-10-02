@@ -112,6 +112,10 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.bluetooth_audio@2.0.vendor \
     vendor.qti.hardware.btconfigstore@1.0.vendor
 
+# Board platform
+PRODUCT_BOARD_PLATFORM := msm8937
+PRODUCT_USE_QCOM_HARDWARE := true
+
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
