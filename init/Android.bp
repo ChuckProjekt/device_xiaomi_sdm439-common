@@ -7,7 +7,7 @@
 cc_defaults {
     name: "libinit_sdm439_defaults",
     include_dirs: [
-        "system/core/base/include",
+        "system/libbase/include",
         "system/core/init"
     ],
     shared_libs: ["libbase"],
