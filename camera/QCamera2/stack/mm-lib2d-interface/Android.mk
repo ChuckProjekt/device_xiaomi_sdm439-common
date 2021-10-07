@@ -7,7 +7,7 @@ include $(CLEAR_VARS)
 LOCAL_32_BIT_ONLY := $(BOARD_QTI_CAMERA_32BIT_ONLY)
 LOCAL_CFLAGS+= -D_ANDROID_ -DQCAMERA_REDEFINE_LOG
 
-LOCAL_CFLAGS += -Wall -Wextra -Wno-unused-parameter
+LOCAL_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-compound-token-split-by-macro
 
 ifneq (,$(filter $(TRINKET),$(TARGET_BOARD_PLATFORM)))
 LOCAL_C_INCLUDES += \
