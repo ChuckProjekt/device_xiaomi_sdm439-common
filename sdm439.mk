@@ -183,7 +183,7 @@ PRODUCT_PACKAGES += \
 
 # IMS
 PRODUCT_PACKAGES += \
-    vendor.qti.hardware.camera.device@1.0
+    vendor.qti.hardware.camera.device@1.0.vendor
 
 # HW crypto
 PRODUCT_PACKAGES += \
