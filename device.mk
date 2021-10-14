@@ -92,6 +92,7 @@ PRODUCT_PACKAGES += \
     android.hardware.audio@6.0-impl:32 \
     android.hardware.audio.effect@6.0-impl:32 \
     android.hardware.audio.service \
+    android.hardware.bluetooth@1.0.vendor \
     android.hardware.bluetooth.audio@2.0-impl:32 \
     android.hardware.soundtrigger@2.1-impl:32 \
     audio.a2dp.default \
@@ -127,11 +128,13 @@ PRODUCT_COPY_FILES += \
 # Bluetooth
 PRODUCT_PACKAGES += \
     vendor.qti.hardware.btconfigstore@1.0.vendor:64 \
-    vendor.qti.hardware.btconfigstore@2.0.vendor:64
+    vendor.qti.hardware.btconfigstore@2.0.vendor:64 \
+    bt_stack.conf
 
 # Camera
 PRODUCT_PACKAGES += \
     android.frameworks.displayservice@1.0 \
+    android.frameworks.displayservice@1.0.vendor \
     android.hardware.camera.provider@2.4-impl \
     android.hardware.camera.provider@2.4-service \
     android.hardware.camera.device@3.6 \
@@ -161,7 +164,10 @@ PRODUCT_PACKAGES += \
     memtrack.msm8937 \
     libdisplayconfig \
     libqdMetaData \
+    libsdmutils \
+    libsdmutils.vendor \
     libtinyxml \
+    libtinyxml.vendor \
     libvulkan \
     vendor.display.config@1.0.vendor
 
@@ -173,7 +179,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl:64 \
     android.hardware.drm@1.0-service-lazy \
-    android.hardware.drm@1.3-service.clearkey
+    android.hardware.drm@1.3-service.clearkey \
+    android.hardware.drm@1.3.vendor \
+    android.hardware.drm@1.4.vendor
 
 # FM
 PRODUCT_PACKAGES += \
@@ -190,6 +198,7 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
+    android.hardware.gnss@2.1.vendor \
     libcurl
 
 PRODUCT_COPY_FILES += \
@@ -252,6 +261,10 @@ PRODUCT_PACKAGES += \
     libavservices_minijail.vendor \
     libnbaio
 
+# Netd
+PRODUCT_PACKAGES += \
+    android.system.net.netd@1.1.vendor \
+
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
@@ -308,8 +321,10 @@ PRODUCT_PACKAGES += \
 
 # RIL
 PRODUCT_PACKAGES += \
-    android.hardware.secure_element@1.0 \
+    android.hardware.secure_element@1.2 \
+    android.hardware.secure_element@1.2.vendor \
     librmnetctl \
+    librmnetctl.vendor \
     libcnefeatureconfig \
     qti-telephony-hidl-wrapper \
     qti_telephony_hidl_wrapper.xml \
