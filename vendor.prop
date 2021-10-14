@@ -126,6 +126,10 @@ persist.vendor.recovery_update=false
 # Sensor
 ro.vendor.sensors.pseudo_gyro=true
 
+# Soc
+ro.soc.manufacturer=QTI
+ro.soc.model=MSM8937
+
 # Time Services
 persist.backup.ntpServer=0.pool.ntp.org
 
