@@ -189,6 +189,7 @@ WIFI_DRIVER_FW_PATH_STA := "sta"
 WIFI_AVOID_IFACE_RESET_MAC_CHANGE := true
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 WPA_SUPPLICANT_VERSION := VER_0_8_X
+TARGET_HAS_BROKEN_WLAN_SET_INTERFACE := true
 
 # Inherit from the proprietary version
 include vendor/xiaomi/sdm439-common/BoardConfigVendor.mk
