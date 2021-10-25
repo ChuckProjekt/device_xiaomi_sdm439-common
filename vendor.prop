@@ -191,6 +191,10 @@ vendor.service.qti.ims.enabled=1
 # Sensor
 ro.vendor.sensors.pseudo_gyro=true
 
+# SoC
+ro.soc.manufacturer=Qualcomm
+ro.soc.model=MSM8937
+
 # System
 persist.sys.binary_xml=false
 
