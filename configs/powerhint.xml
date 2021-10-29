@@ -32,6 +32,19 @@
 -->
 <HintConfigs>
     <Powerhint>
+ <!-- camera 30fps and camera preview -->
+        <!--sample_ms = 10mS -->
+        <!--SLB for Core0 = -6 -->
+        <!--SLB for Core1 = -6 -->
+        <!--SLB for Core2 = -6 -->
+        <!--SLB for Core3 = -6 -->
+        <!--hispeed load = 95 -->
+        <!--hispeed freq = 998Mhz -->
+        <Config
+            Id="0x00001331" Enable="true" Target="msm8953"
+            Resources="0x41820000, 0xa, 0x40c68100, 0xfffffffa, 0x40c68110, 0xfffffffa, 0x40c68120, 0xfffffffa,
+            0x40c68130, 0xfffffffa, 0x41440100, 0x5f, 0x4143c100, 0x3e6"/>
+
         <!--preview-->
         <!-- B CPU - above_hispeed_delay of 40 ms -->
         <!-- B CPU - go hispeed load 95 -->
