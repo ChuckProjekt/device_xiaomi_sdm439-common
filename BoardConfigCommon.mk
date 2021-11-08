@@ -145,7 +145,6 @@ BOARD_ROOT_EXTRA_SYMLINKS := \
 
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/proc/sys/dev/dt2w"
-TARGET_USES_INTERACTION_BOOST := true
 
 # Platform
 BOARD_USES_QCOM_HARDWARE := true
