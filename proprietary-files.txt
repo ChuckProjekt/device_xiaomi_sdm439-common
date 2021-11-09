@@ -4906,5 +4906,5 @@ vendor/etc/westalgo/rt_model/score/cache_data
 vendor/etc/westalgo/rt_model/score/megviisegment_model
 vendor/etc/westalgo/rt_model/score/model_mdl_cache
 
-# Wi-Fi - from LA.UM.9.6.2.r1-04200-89xx.0
-vendor/bin/wcnss_service|317325ee182ad09f426975cc6ec44ce33addb052
+# Wi-Fi - from LA.UM.9.6.3.r1-04400-89xx.0
+vendor/bin/wcnss_service|48e4a96a9de69bd83791a3b0b2134f5ab1205adc
