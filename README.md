@@ -1,23 +1,31 @@
-# Device Tree for Xiaomi Redmi Note 4 & 4x (Mido)
+The Redmi 8A Dual (codenamed _"olivewood"_) are low-end mid-range smartphones from Xiaomi announced and released in May 2020.
 
-## Spec Sheet
+## Device specifications
 
-| Feature                 | Specification                     |
-| :---------------------- | :-------------------------------- |
-| CPU                     | Octa-core 2.0 GHz Cortex-A53      |
-| Chipset                 | Qualcomm MSM8953 Snapdragon 625   |
-| GPU                     | Adreno 506                        |
-| Memory                  | 2/3/4 GB                          |
-| Shipped Android Version | 6.0.1                             |
-| Storage                 | 32/64 GB                          |
-| MicroSD                 | Up to 256 GB                      |
-| Battery                 | 4100 mAh (non-removable)          |
-| Dimensions              | 151 x 76 x 8.5 mm                 |
-| Display                 | 1920x1080 pixels, 5.5 (~401 PPI)  |
-| Rear Camera             | 13 MP, LED flash                  |
-| Front Camera            | 5 MP                              |
-| Release Date            | January 2017                      |
+Basic | Spec Sheet
+ -------:|:-------------------------
+ SoC | Qualcomm MSM8937 Snapdragon 439
+ CPU | Octa core (2.0 GHz)
+ GPU | Adreno 505
+ Memory | 2/3/4 GB RAM
+ Shipped Android Version | 9.0
+ Storage | 16/32/64 GB
+ MicroSD | Up to 512 GB (dedicated slot)
+ Battery | Non-removable Li-Polymer 5000 mAh battery
+ Dimensions | 146.3 x 70.4 x 9.6 mm
+ Display | 720 x 1520 pixels, 18:9 ratio, 5.45 inches (~295 ppi density)
+ Rear camera | 12 MP, f/2.2, 1.25 μm , PDAF
+ Front camera | 5 MP, f/2.2   
+   
+## Device picture
 
-## Device Picture
+![Xiaomi Redmi 8A Dual](https://quickrly.com/wp-content/uploads/2020/08/Redmi-8A-Dual-Sea-Blue-2GB-RAM-32GB-Storage-specs.jpg)
 
-![Redmi Note 4](http://i01.appmifile.com/webfile/globalimg/7/537557F3-A4F1-2490-E9D3-138B2A11DBF6.png "Redmi Note 4")
+## Copyright
+
+```
+#
+# Copyright (C) 2020 The LineageOS Project
+#
+# SPDX-License-Identifier: Apache-2.0
+#

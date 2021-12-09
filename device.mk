@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-$(call inherit-product, vendor/xiaomi/mido/mido-vendor.mk)
+$(call inherit-product, vendor/xiaomi/olivewood/olivewood-vendor.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_m.mk)
 
 # Overlays
@@ -95,7 +95,7 @@ PRODUCT_PACKAGES += \
     android.hardware.soundtrigger@2.1-impl:32 \
     audio.a2dp.default \
     audio.bluetooth.default \
-    audio.primary.msm8953 \
+    audio.primary.msm8937 \
     audio.r_submix.default \
     audio.usb.default \
     libaacwrapper \
@@ -113,10 +113,10 @@ PRODUCT_PACKAGES += \
 # Audio configuration
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
-    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8953/audio_output_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_output_policy.conf \
-    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8953/audio_tuning_mixer.txt:$(TARGET_COPY_OUT_VENDOR)/etc/audio_tuning_mixer.txt \
-    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8953/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths.xml \
-    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8953/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml
+    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8937/audio_output_policy.conf:$(TARGET_COPY_OUT_VENDOR)/etc/audio_output_policy.conf \
+    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8937/audio_tuning_mixer.txt:$(TARGET_COPY_OUT_VENDOR)/etc/audio_tuning_mixer.txt \
+    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8937/sound_trigger_mixer_paths.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_mixer_paths.xml \
+    $(LOCAL_PATH)//qcom-caf/audio/configs/msm8937/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml
 
 # Audio XML configuration files
 PRODUCT_COPY_FILES += \
@@ -148,7 +148,7 @@ PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.5:64 \
     android.hardware.camera.provider@2.6:64 \
     vendor.qti.hardware.camera.device@1.0 \
-    camera.msm8953 \
+    camera.msm8937 \
     libcamshim \
     libmm-qcamera \
     libui_shim \
@@ -160,7 +160,7 @@ PRODUCT_COPY_FILES += \
 
 # Consumerir
 PRODUCT_PACKAGES += \
-    android.hardware.ir@1.0-service.xiaomi_mido
+    android.hardware.ir@1.0-service.xiaomi_olivewood
 
 # Display
 PRODUCT_PACKAGES += \
@@ -170,9 +170,9 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.mapper@2.0-impl-2.1 \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
-    gralloc.msm8953 \
-    hwcomposer.msm8953 \
-    memtrack.msm8953 \
+    gralloc.msm8937 \
+    hwcomposer.msm8937 \
+    memtrack.msm8937 \
     libdisplayconfig \
     libqdMetaData \
     libtinyxml \
@@ -191,7 +191,7 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1-service.xiaomi_mido \
+    android.hardware.biometrics.fingerprint@2.1-service.xiaomi_olivewood \
     fakelogprint \
     libshims_gxfpd
 
@@ -251,7 +251,7 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/keylayout/goodix-ts.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/goodix-ts.kl \
     $(LOCAL_PATH)/keylayout/gpio-keys.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/gpio-keys.kl \
     $(LOCAL_PATH)/keylayout/ist30xx_ts_input.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/ist30xx_ts_input.kl \
-    $(LOCAL_PATH)/keylayout/msm8953-snd-card-mtp_Button_Jack.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/msm8953-snd-card-mtp_Button_Jack.kl \
+    $(LOCAL_PATH)/keylayout/msm8937-snd-card-mtp_Button_Jack.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/msm8937-snd-card-mtp_Button_Jack.kl \
     $(LOCAL_PATH)/keylayout/uinput-fpc.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-fpc.kl
 
 # IPA Manager
@@ -266,11 +266,11 @@ PRODUCT_PACKAGES += \
 
 # Lights
 PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.xiaomi_mido
+    android.hardware.light@2.0-service.xiaomi_olivewood
 
 # LiveDisplay
 PRODUCT_PACKAGES += \
-    vendor.lineage.livedisplay@2.0-service.xiaomi_mido
+    vendor.lineage.livedisplay@2.0-service.xiaomi_olivewood
 
 # LMKD
 # Enable stats logging in LMKD
@@ -378,11 +378,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.thermal@1.0-impl:64 \
     android.hardware.thermal@1.0-service \
-    thermal.msm8953
+    thermal.msm8937
 
 # Touch features
 PRODUCT_PACKAGES += \
-    vendor.lineage.touch@1.0-service.xiaomi_mido
+    vendor.lineage.touch@1.0-service.xiaomi_olivewood
 
 # Trust HAL
 PRODUCT_PACKAGES += \

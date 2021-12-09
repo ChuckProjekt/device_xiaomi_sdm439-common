@@ -817,7 +817,7 @@ vendor/etc/init/init.qti.fm.rc|07cb64e2109a900eb6e1da1950fddba954d0f8d6
 vendor/lib64/vendor.qti.hardware.fm@1.0.so|f7494923e84b136a44f02699082a7e0a380f94e9
 
 # Gatekeeper - from LA.UM.9.6.2.r1-04200-89xx.0
-vendor/lib64/hw/gatekeeper.msm8953.so|391b9ded894fb581fab3f5c742236b11e2e61a7b
+vendor/lib64/hw/gatekeeper.msm8937.so|391b9ded894fb581fab3f5c742236b11e2e61a7b
 
 # GPS - from LA.UM.9.6.2.r1-04200-89xx.0
 vendor/bin/hw/android.hardware.gnss@2.1-service-qti|d458a2aadc1d00df4696d6793e550f4a9422a2c9
@@ -950,10 +950,10 @@ vendor/firmware/a530_pfp.fw|c19e1905c15622d7bb02409e6748959bceda9b08
 vendor/firmware/a530_pm4.fw|b1cf625b5552b99839687f479c124ac5daca2ca2
 
 # Keystore - from LA.UM.9.6.2.r1-04200-89xx.0
-vendor/lib64/hw/keystore.msm8953.so|0a68ac29004f72237f48008cea188dd98d6c6560
+vendor/lib64/hw/keystore.msm8937.so|0a68ac29004f72237f48008cea188dd98d6c6560
 
 # Listen - from LA.UM.9.6.2.r1-04200-89xx.0
-vendor/lib/hw/sound_trigger.primary.msm8953.so|55f8b7ebf9b30ef84341081dcdd5289dc70ceaa6
+vendor/lib/hw/sound_trigger.primary.msm8937.so|55f8b7ebf9b30ef84341081dcdd5289dc70ceaa6
 vendor/lib/libadpcmdec.so|7a38d6b28b27cf663681ad077614a03164418f91
 vendor/lib/libcapiv2svacnn.so|927d89e3c65bd6b1d1028e1dc7318d98e288f510
 vendor/lib/libcapiv2vop.so|1515e1e4d37c01e1c8d3b819add1b5ca71d22f43
@@ -1244,14 +1244,14 @@ system_ext/lib64/vendor.qti.hardware.sensorscalibrate@1.0.so|32257292ed8c5b2e2f9
 vendor/bin/sensors.qti|04cede687413ba92210f908e796c423e012f974b
 vendor/etc/sensors/hals.conf|bf3677cbfa5ce5735662e8c259cb027969f65c87
 vendor/etc/sensors/sensor_def_qcomdev.conf|fa2c2a99d295343c024296ed8a5c32fa0525374b
-vendor/lib/hw/activity_recognition.msm8953.so|b8e9528fb29ea3457151e78a40a37920e47bb0df
+vendor/lib/hw/activity_recognition.msm8937.so|b8e9528fb29ea3457151e78a40a37920e47bb0df
 vendor/lib/libsensor1.so|d2f7ef0d9bc888973f5b10b828a988edd2675967
 vendor/lib/libsensor_reg.so|733a12b41dc0751b54c01a9ad980f0d039e45ab2
 vendor/lib/libsensor_thresh.so|3bb866371bfef90b5a606797f1a52df858882e9f
 vendor/lib/libsensor_user_cal.so|93f881be5b50f3ef12c07d82f5b29885b10dd80f
 vendor/lib/sensor_calibrate.so|d621d8951f66b82cc2f22e1e4673c74180480c2a
 vendor/lib/sensors.ssc.so|f8483b2fcc2c11e838631be3322f990be60541cf
-vendor/lib64/hw/activity_recognition.msm8953.so|99a419a6afa3e5b95c050559841304f4fd427de4
+vendor/lib64/hw/activity_recognition.msm8937.so|99a419a6afa3e5b95c050559841304f4fd427de4
 vendor/lib64/libsensor1.so|f5f96c81d636df791ff8b3764a84dc61e44ba6cc
 vendor/lib64/libsensor_reg.so|b8cf5b75c30be2a591d69c84fe5639958b1f6569
 vendor/lib64/libsensor_thresh.so|2cd018f8198228c73992829f5e7f618ecbf7106e
