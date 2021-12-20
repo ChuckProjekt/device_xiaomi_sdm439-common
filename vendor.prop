@@ -15,6 +15,8 @@ dalvik.vm.dex2oat-minidebuginfo=false
 dalvik.vm.minidebuginfo=false
 
 # Audio
+ro.config.vc_call_vol_steps=7
+ro.config.media_vol_steps=15
 af.fast_track_multiplier=1
 audio.chk.cal.us=0
 audio.deep_buffer.media=true
