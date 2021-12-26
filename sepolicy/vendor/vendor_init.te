@@ -6,3 +6,16 @@ allow vendor_init {
 
 # Allow vendor_init to read persist_debug_prop
 get_prop(vendor_init, persist_debug_prop)
+
+# Allow vendor_init to write cache_file
+allow vendor_init cache_file:dir { remove_name write };
+allow vendor_init cache_file:file { unlink write };
+
+# Allow vendor_init to create camera_data_file 
+allow vendor_init camera_data_file:dir { create getattr setattr };
+
+# Allow vendor_init to create ipa_dev
+allow vendor_init ipa_dev:file { create open write };
+
+# Allow vendor_init to write system_data_file
+allow vendor_init system_data_file:dir { add_name write };
