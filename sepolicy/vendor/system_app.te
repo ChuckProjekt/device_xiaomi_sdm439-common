@@ -1,3 +1,6 @@
+# Allow system_app to read proc_pagetypeinfo
+allow system_app proc_pagetypeinfo:file read;
+
 # XiaomiParts
 allow system_app {
     sysfs_hgain
