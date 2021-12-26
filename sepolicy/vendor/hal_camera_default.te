@@ -1,3 +1,7 @@
 allow hal_camera_default camera_data_file:sock_file write;
 allow hal_camera_default huaqin_sysfs:dir r_dir_perms;
 allow hal_camera_default huaqin_sysfs:file r_file_perms;
+allow hal_camera_default diag_device:chr_file { ioctl open read write };
+get_prop(hal_camera_default, bootanim_system_prop)
+get_prop(hal_camera_default, default_prop)
+allow hal_camera_default mnt_vendor_file:file { getattr read };
