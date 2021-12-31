@@ -8,9 +8,5 @@ vendor.camera.                  u:object_r:camera_prop:s0
 persist.net.doxlat              u:object_r:vendor_xlat_prop:s0
 wifi.active.interface           u:object_r:wifi_prop:s0
 
-# vendor_radio_prop
-persist.vendor.data.shsusr_load                 u:object_r:vendor_radio_prop:s0
-persist.vendor.data.qmipriod_load               u:object_r:vendor_radio_prop:s0
-
 # FM
 ro.vendor.fm.use_audio_session	u:object_r:exported_system_prop:s0
