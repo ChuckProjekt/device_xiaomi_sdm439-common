@@ -122,7 +122,6 @@ PRODUCT_PACKAGES += \
     android.hardware.bluetooth.a2dp@1.0.vendor \
     android.hardware.bluetooth.a2dp@1.0-impl \
     android.hardware.bluetooth.a2dp@1.0-service \
-    libldacBT_bco \
     vendor.qti.hardware.btconfigstore@1.0.vendor:64 \
     vendor.qti.hardware.btconfigstore@2.0.vendor:64 \
     bt_stack.conf
@@ -383,8 +382,7 @@ PRODUCT_COPY_FILES += \
 $(foreach target, $(shell cat $(LOCAL_PATH)/vndk.txt), $(eval PRODUCT_PACKAGES += $(target).vendor))
 
 PRODUCT_PACKAGES += \
-    com.android.vndk.current.on_vendor \
-    libstdc++.vendor
+    com.android.vndk.current.on_vendor
 
 # Wifi
 PRODUCT_PACKAGES += \
