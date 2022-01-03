@@ -1,3 +1,0 @@
-#============= thermal-engine ==============
-get_prop(thermal-engine, system_prop)
-set_prop(thermal-engine, system_prop)

@@ -1,1 +1,3 @@
 dontaudit untrusted_app virtual_ab_prop:file read;
+allow untrusted_app proc_asound:dir search;
+get_prop(untrusted_app, vendor_persist_camera_prop)

@@ -1,3 +1,2 @@
 #============= hwservicemanager ==============
 binder_call(hwservicemanager, hwservicemanager)
-binder_call(hwservicemanager, init)

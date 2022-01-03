@@ -1,3 +1,0 @@
-#============= surfaceflinger ==============
-binder_call(surfaceflinger, init)
-allow surfaceflinger vendor_firmware_file:file { open read };
