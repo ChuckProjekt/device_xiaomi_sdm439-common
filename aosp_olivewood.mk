@@ -22,6 +22,7 @@ $(call inherit-product, device/xiaomi/olivewood/device.mk)
 
 # Inherit some PixelExperience stuff.
 TARGET_BOOT_ANIMATION_RES := 720
+TARGET_SUPPORTS_QUICK_TAP := true
 TARGET_INCLUDE_LIVE_WALLPAPERS := false
 $(call inherit-product, vendor/aosp/config/common_full_phone.mk)
 
