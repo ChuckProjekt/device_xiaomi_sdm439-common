@@ -19,7 +19,7 @@ Basic | Spec Sheet
  
 ## Device picture
 
-![Xiaomi Redmi 8A Dual](https://quickrly.com/wp-content/uploads/2020/08/Redmi-8A-Dual-Sea-Blue-2GB-RAM-32GB-Storage-specs.jpg)
+![Xiaomi Redmi 8A Dual](https://i01.appmifile.com/webfile/globalimg/in/cms/525A562C-D23B-89F3-4A0A-4C97D33AC75F.jpg)
 
 ```
 #
