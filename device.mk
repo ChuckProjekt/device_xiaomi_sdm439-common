@@ -326,10 +326,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.renderscript@1.0-impl
 
-# Shims
-PRODUCT_PACKAGES += \
-    libgui-shim
-
 # RIL
 PRODUCT_PACKAGES += \
     android.hardware.radio@1.4.vendor \
