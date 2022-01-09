@@ -4828,7 +4828,6 @@ vendor/lib64/vendor.qti.ims.rcsconfig@2.1.so|7c89ba68743fc5e03b64e22baed6717fc09
 
 # Radio (IMS VT) - from LA.UM.9.6.3.r1-04400-89xx.0
 system_ext/lib64/lib-imscamera.so|49ead972646b09d700556d63676673b3e8af2036
-system_ext/lib64/lib-imsvideocodec.so|acc2028deca39c389086b53d4fa142738d4bf402
 system_ext/lib64/lib-imsvt.so|4f96cc5f27551d0b6cb11ad6447d9ce8829dde47
 system_ext/lib64/lib-imsvtextutils.so|1acf1de305e455a3a924483e5652b37133d10fd1
 system_ext/lib64/lib-imsvtutils.so|dfc5cf0854fe38c191a53ec3bd2a322d05d85567
@@ -4847,6 +4846,9 @@ vendor/lib64/lib-rtpsl.so|ff5b49e61349a1255aadd524c74b2237ee3a5b69
 vendor/lib64/librcc.so|e9130f3df8df5be385d245c54a1b6692736f6bf4
 vendor/lib64/vendor.qti.imsrtpservice@3.0-service-Impl.so|068b2a657e3451dbcc6e84009c9cac0bfb6aaac0
 vendor/lib64/vendor.qti.imsrtpservice@3.0.so|460e589128fce0b0e83bb3c75aa32f7e1a9494fd
+
+# IMS - from alioth qssi-user 12 SKQ1.211006.001 21.12.1 release-keys 
+system_ext/lib64/lib-imsvideocodec.so|7c2367614d64caf4703b57e76b980d26ecc0b49b
 
 # Sensors - from LA.UM.9.6.3.r1-04400-89xx.0
 system_ext/lib/vendor.qti.hardware.sensorscalibrate@1.0.so|b719ca0af1acb0df59f7adb6553862bb7683c8ed
