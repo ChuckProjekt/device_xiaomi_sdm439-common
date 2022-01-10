@@ -43,6 +43,9 @@
 #include <platform.h>
 #include <pthread.h>
 #include <math.h>
+#ifdef LINUX_ENABLED
+#include <float.h>
+#endif
 #include <pthread.h>
 
 #ifdef DYNAMIC_LOG_ENABLED
