@@ -21,8 +21,7 @@ PRODUCT_PACKAGES += libdisplayconfig \
                     vendor.qti.hardware.display.config-V2-ndk_platform \
                     vendor.qti.hardware.display.config-V3-ndk_platform \
                     vendor.qti.hardware.display.config-V4-ndk_platform \
-                    vendor.qti.hardware.display.config-V5-ndk_platform \
-                    vendor.qti.hardware.display.config-V6-ndk_platform
+                    vendor.qti.hardware.display.config-V5-ndk_platform
 
 SOONG_CONFIG_NAMESPACES += qtidisplaycommonsys
 # Soong Keys

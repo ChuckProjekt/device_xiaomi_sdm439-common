@@ -52,5 +52,4 @@ interface IDisplayConfigCallback {
   oneway void notifyIdleStatus(in boolean isIdle);
   oneway void notifyCameraSmoothInfo(in vendor.qti.hardware.display.config.CameraSmoothOp op, in int fps);
   oneway void notifyResolutionChange(in int displayId, in vendor.qti.hardware.display.config.Attributes attr);
-  oneway void notifyFpsMitigation(in int displayId, in vendor.qti.hardware.display.config.Attributes attr, in vendor.qti.hardware.display.config.Concurrency concurrency);
 }
