@@ -4314,7 +4314,7 @@ system_ext/lib64/libdpmtcm.so|ac8bb063de43870f67e2aba15eee5baaa9864c84
 vendor/bin/dpmQmiMgr|b8e0b554afb95f9266719aa5cb9d2f881243699b
 vendor/etc/init/dpmQmiMgr.rc|1538743661a5c48c15cd105beaad20f72953885a
 vendor/lib64/com.qualcomm.qti.dpm.api@1.0.so|4b9949ae7fc00e408352f526f62e956366ee06d2
-vendor/lib64/libdpmqmihal.so|ffcd85e1f6bf7d54f37953edc2cb2c4a61fc894a
+vendor/lib64/libdpmqmihal.so|4408eef7b684afed3bc50eaa9829e7b8c90df94d
 
 # Display-calibration - from olive-user 10 QKQ1.191014.001 V12.0.1.0.QCNMIXM release-keys
 vendor/etc/qdcm_calib_data_ft8006s_hdplus_c3i_video_mode_dsi_panel.xml
