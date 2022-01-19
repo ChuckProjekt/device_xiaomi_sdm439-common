@@ -6,8 +6,6 @@ persist.camera.                 u:object_r:camera_prop:s0
 persist.vendor.camera.          u:object_r:camera_prop:s0
 vendor.camera.                  u:object_r:camera_prop:s0
 persist.net.doxlat              u:object_r:vendor_xlat_prop:s0
-persist.vendor.camera.          u:object_r:camera_prop:s0
-persist.camera.                 u:object_r:camera_prop:s0
 persist.enable.max.pending.buf  u:object_r:camera_prop:s0
 cameradaemon.SaveMemAtBoot      u:object_r:camera_prop:s0
 persist.partial.skip            u:object_r:camera_prop:s0
