@@ -1,2 +1,10 @@
 # Dirac
 system_public_prop(dirac_prop);
+
+# Wlan
+vendor_internal_prop(vendor_set_wlan_prop)
+vendor_internal_prop(vendor_nv_prop)
+vendor_internal_prop(wcnss_prop)
+
+# mwqem property
+vendor_restricted_prop(vendor_mwqem_prop); 
