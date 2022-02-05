@@ -25,7 +25,6 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 # RRO (Runtime Resource Overlay)
 PRODUCT_ENFORCE_RRO_TARGETS := *
 PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += $(LOCAL_PATH)/overlay/packages/apps/CarrierConfig
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += $(LOCAL_PATH)/overlay/packages/apps/Snap
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
@@ -138,7 +137,6 @@ PRODUCT_PACKAGES += \
     libdng_sdk.vendor \
     libgui_vendor \
     libmm-qcamera \
-    Snap \
     vendor.qti.hardware.camera.device@1.0 \
     vendor.qti.hardware.camera.device@1.0.vendor
 
