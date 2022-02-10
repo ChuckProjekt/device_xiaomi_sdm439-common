@@ -1,4 +1,0 @@
-service vendor.power /vendor/bin/hw/android.hardware.power-service.sdm439
-    class hal
-    user system
-    group system
