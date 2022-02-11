@@ -9,7 +9,6 @@ cc_library_static {
     recovery_available: true,
     srcs: ["init_olivewood.cpp"],
     include_dirs: [
-        "system/libbase/include",
         "system/core/init"
     ],
     shared_libs: [
