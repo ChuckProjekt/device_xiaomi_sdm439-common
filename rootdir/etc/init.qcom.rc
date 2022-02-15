@@ -274,6 +274,12 @@ on property:vendor.radio.atfwd.start=false
 on property:vendor.rild.libpath=*
     setprop rild.libpath ${vendor.rild.libpath}
 
+# DSDS - Restart qcrild on data switch
+on property:persist.sys.radio.mobile_data_swap=1
+    restart vendor.qcrild
+    exec /bin/sleep 2
+    restart vendor.qcrild2
+
 on property:vold.decrypt=trigger_shutdown_framework
     stop vendor.gnss_service
     stop vendor.camera-provider-2-4
