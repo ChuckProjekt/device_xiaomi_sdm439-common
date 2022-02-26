@@ -72,11 +72,6 @@ function blob_fixup() {
         system_ext/etc/permissions/qcrilhook.xml)
             sed -i 's|/product/framework/qcrilhook.jar|/system_ext/framework/qcrilhook.jar|g' "${2}"
             ;;
-        system_ext/lib64/libdpmframework.so)
-            for LIBSHIM_DPMFRAMEWORK in $(grep -L "libshim_dpmframework.so" "${2}"); do
-                "${PATCHELF}" --add-needed "libshim_dpmframework.so" "${2}"
-            done
-            ;;
         system_ext/lib64/lib-imsvideocodec.so)
             for LIBSHIM_IMSVIDEOCODEC in $(grep -L "libshim_imsvideocodec.so" "${2}"); do
                 "${PATCHELF}" --add-needed "libshim_imsvideocodec.so" "${2}"
