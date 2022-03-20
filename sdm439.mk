@@ -265,7 +265,6 @@ PRODUCT_PACKAGES += \
     libcodec2_soft_av1dec_gav1 \
     libcodec2_soft_gsmdec \
     libcodec2_soft_hevcdec \
-    libcodec2_soft_hevcenc \
     libcodec2_soft_mp3dec \
     libcodec2_soft_mpeg2dec \
     libcodec2_soft_mpeg4dec \
@@ -292,7 +291,6 @@ PRODUCT_PACKAGES += \
     libOmxEvrcEnc \
     libOmxG711Enc \
     libOmxQcelp13Enc \
-    libOmxSwVencHevc \
     libOmxVdec \
     libOmxVenc \
     libstagefrighthw
