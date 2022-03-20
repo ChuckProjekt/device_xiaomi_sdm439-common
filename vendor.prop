@@ -108,6 +108,7 @@ persist.qfp=false
 
 # FM
 ro.fm.transmitter=false
+hw.fm.internal_antenna=true
 
 # FRP
 ro.frp.pst=/dev/block/bootdevice/by-name/config
