@@ -1020,8 +1020,13 @@ vendor/lib/sensors.ssc.so|b45c2bd8c0314088f8a0f22cb6fa39f9b2205bd0
 # Sensor configs - from olive
 vendor/etc/sensors/hals.conf|bf3677cbfa5ce5735662e8c259cb027969f65c87
 
-# Thermal - from olive
+# Thermal - from PAN_sprout
 vendor/bin/thermal-engine
+vendor/etc/init/init_thermal-engine.rc
+vendor/lib/libthermalclient.so
+vendor/lib64/libthermalclient.so
+
+# Thermal configs - from olive
 vendor/etc/thermal-engine-camera.conf
 vendor/etc/thermal-engine.conf
 vendor/etc/thermal-engine-high.conf
@@ -1029,24 +1034,32 @@ vendor/etc/thermal-engine-map.conf
 vendor/etc/thermal-engine-nolimits.conf
 vendor/etc/thermal-engine-normal.conf
 vendor/etc/thermal-engine-sgame.conf
--vendor/lib/libthermalclient.so
--vendor/lib64/libthermalclient.so
-vendor/lib64/libthermalfeature.so
 
-# Time services
+# Time services - from PAN_sprout
 -vendor/app/TimeService/TimeService.apk
 vendor/bin/time_daemon
 vendor/etc/init/init.time_daemon.rc
 -vendor/lib/libtime_genoff.so
 -vendor/lib64/libtime_genoff.so
 
-# TUI
+# TUI - from PAN_sprout
+system_ext/lib/vendor.qti.hardware.tui_comm@1.0.so
+system_ext/lib64/vendor.qti.hardware.tui_comm@1.0.so
 vendor/bin/hw/vendor.qti.hardware.tui_comm@1.0-service-qti
 vendor/etc/init/vendor.qti.hardware.tui_comm@1.0-service-qti.rc
 vendor/lib/vendor.qti.hardware.tui_comm@1.0.so
 vendor/lib64/vendor.qti.hardware.tui_comm@1.0.so
 
-# Voice
+# Touch-improve - from PAN_sprout
+vendor/lib/vendor.qti.hardware.improvetouch.touchcompanion@1.0-service.so
+vendor/lib/vendor.qti.hardware.improvetouch.touchcompanion@1.0.so
+vendor/lib64/vendor.qti.hardware.improvetouch.touchcompanion@1.0-service.so
+vendor/lib64/vendor.qti.hardware.improvetouch.touchcompanion@1.0.so
+
+# Voice - from PAN_sprout
+-system_ext/framework/vendor.qti.voiceprint-V1.0-java.jar
+system_ext/lib/vendor.qti.voiceprint@1.0.so
+system_ext/lib64/vendor.qti.voiceprint@1.0.so
 vendor/lib/vendor.qti.voiceprint@1.0.so
 vendor/lib64/vendor.qti.voiceprint@1.0.so
 
