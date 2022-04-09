@@ -152,6 +152,9 @@ PRODUCT_PACKAGES += \
     libgenlock \
     libtinyxml
 
+PRODUCT_PACKAGES += \
+    vulkan.pastel
+
 # DPM
 PRODUCT_PACKAGES += \
     libshim_dpmframework
