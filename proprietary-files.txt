@@ -951,8 +951,13 @@ vendor/lib/sensors.ssc.so|b45c2bd8c0314088f8a0f22cb6fa39f9b2205bd0
 # Sensor configs - from olive
 vendor/etc/sensors/hals.conf|bf3677cbfa5ce5735662e8c259cb027969f65c87
 
-# Thermal - from olive
+# Thermal - from PAN_sprout
 vendor/bin/thermal-engine
+vendor/etc/init/init_thermal-engine.rc
+vendor/lib/libthermalclient.so
+vendor/lib64/libthermalclient.so
+
+# Thermal configs - from olive
 vendor/etc/thermal-engine-camera.conf
 vendor/etc/thermal-engine.conf
 vendor/etc/thermal-engine-high.conf
@@ -960,9 +965,6 @@ vendor/etc/thermal-engine-map.conf
 vendor/etc/thermal-engine-nolimits.conf
 vendor/etc/thermal-engine-normal.conf
 vendor/etc/thermal-engine-sgame.conf
--vendor/lib/libthermalclient.so
--vendor/lib64/libthermalclient.so
-vendor/lib64/libthermalfeature.so
 
 # Time services
 -vendor/app/TimeService/TimeService.apk
