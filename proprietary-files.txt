@@ -906,9 +906,6 @@ vendor/lib64/vendor.qti.imsrtpservice@3.0.so|460e589128fce0b0e83bb3c75aa32f7e1a9
 # Radio (IMS) - from qssi-user 12 SKQ1.211006.001 22.1.19 release-keys
 system_ext/lib64/lib-imsvideocodec.so|f7258d9a4b05617b0d7acfbfff1186ad2bf368d3
 
-# Sar Controller - from olive
--priv-app/SarControllerI/SarControllerI.apk
-
 # Sensors - from olive
 vendor/bin/sensors.qti|3bf3798e2e1d46b0b8964ec859afa81bd5a8d3fe
 vendor/lib/hw/activity_recognition.msm8937.so|5c002529f8b9f1b1ee0b4f93216f03251c6ee849
