@@ -138,7 +138,6 @@ vendor.video.disable.ubwc=1
 ro.vendor.qti.sys.fw.bservice_enable=true
 
 # Perf
-ro.vendor.perf.scroll_opt=true
 ro.vendor.extension_library=libqti-perfd-client.so
 
 # Network manager daemon
