@@ -549,13 +549,15 @@ vendor/lib64/libsdm-diag.so
 vendor/lib64/libsdmextension.so
 vendor/lib64/libtinyxml2_1.so
 
-# Graphics firmware - from olive
+# Graphics firmware - from PAN
 vendor/firmware/a506_zap.b00
 vendor/firmware/a506_zap.b01
 vendor/firmware/a506_zap.b02
-vendor/firmware/a506_zap.mdt
 vendor/firmware/a530_pfp.fw
 vendor/firmware/a530_pm4.fw
+
+# Graphics firmware
+vendor/firmware/a506_zap.mdt
 
 # Keymaster
 vendor/bin/hw/android.hardware.keymaster@4.0-service-qti|13a894ea69abc056b754fa9e8f8e828ffd1de38c
