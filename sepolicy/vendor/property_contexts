@@ -1,5 +1,4 @@
 persist.audio.dirac             u:object_r:dirac_prop:s0
-camera.		                u:object_r:camera_prop:s0
 ro.camera.	                u:object_r:camera_prop:s0
 camera.dual.mode                u:object_r:camera_prop:s0
 persist.camera.                 u:object_r:camera_prop:s0
