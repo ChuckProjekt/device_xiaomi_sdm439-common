@@ -165,15 +165,17 @@ PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-service \
     gralloc.msm8937 \
     hwcomposer.msm8937 \
-    memtrack.msm8937 \
-    libqdMetaData \
+    libgralloc.system.qti \
+    libqdMetaData.system \
     libsdmutils \
     libsdmutils.vendor \
     libtinyxml \
     libtinyxml.vendor \
     libvulkan \
-    vendor.display.config@1.0.vendor
-
+    memtrack.msm8937 \
+    vendor.display.config@1.0.vendor \
+    vendor.qti.hardware.display.allocator-service \
+    vendor.qti.hardware.display.mapper@2.0.vendor
 # Device-specific settings
 PRODUCT_PACKAGES += \
     XiaomiParts
