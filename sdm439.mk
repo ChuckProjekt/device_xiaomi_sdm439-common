@@ -126,7 +126,7 @@ PRODUCT_PACKAGES += \
     libstdc++.vendor
 
 PRODUCT_PACKAGES += \
-    Snap
+    GCamGO-V2-Mi439
 
 # Display
 PRODUCT_PACKAGES += \

@@ -1,0 +1,12 @@
+android_app_import {
+	name: "GCamGO-V2-Mi439",
+	owner: "google",
+	apk: "GCamGO-V2.apk",
+	presigned: true,
+	dex_preopt: {
+		enabled: false,
+	},
+	privileged: true,
+	product_specific: true,
+	overrides: ["Camera2", "GCamGOPrebuilt", "Snap"],
+}
