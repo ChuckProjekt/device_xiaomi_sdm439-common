@@ -25,11 +25,11 @@ TARGET_2ND_CPU_VARIANT := cortex-a53
 TARGET_BOARD_SUFFIX := _64
 
 # Device Properties
-TARGET_ODM_PROP := $(DEVICE_PATH)/odm.prop
-TARGET_PRODUCT_PROP := $(DEVICE_PATH)/product.prop
-TARGET_SYSTEM_EXT_PROP := $(DEVICE_PATH)/system_ext.prop
-TARGET_SYSTEM_PROP := $(DEVICE_PATH)/system.prop
-TARGET_VENDOR_PROP := $(DEVICE_PATH)/vendor.prop
+TARGET_ODM_PROP := $(DEVICE_PATH)/configs/properties/odm.prop
+TARGET_PRODUCT_PROP := $(DEVICE_PATH)/configs/properties/product.prop
+TARGET_SYSTEM_EXT_PROP := $(DEVICE_PATH)/configs/properties/system_ext.prop
+TARGET_SYSTEM_PROP := $(DEVICE_PATH)/configs/properties/system.prop
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/configs/properties/vendor.prop
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80000000
