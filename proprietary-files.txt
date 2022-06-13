@@ -114,8 +114,8 @@ vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.0.so|3281b131bf921fbdc00afe66cf
 vendor/lib64/vendor.qti.hardware.bluetooth_sar@1.1.so|5de4a802667afa2c05b9c75ae6311fcd0c8b23f6
 
 # Bluetooth (aptX) - from Coral - 12/SQ1A.220105.002/7961164
-system_ext/lib64/libaptX_encoder.so|df1c89d7af1bb35808d5fe3496b04ba066c10cbc
 system_ext/lib64/libaptXHD_encoder.so|e13fa70c97caaa24d061678bdee608eb8850a69e
+system_ext/lib64/libaptX_encoder.so|df1c89d7af1bb35808d5fe3496b04ba066c10cbc
 
 # Camera - from olive
 vendor/lib/libSNPE.so
@@ -4297,7 +4297,7 @@ vendor/etc/diracmobile.config
 vendor/lib/soundfx/libdirac.so
 vendor/lib/libDiracAPI_SHARED.so
 
-# DPM - from alioth qssi-user 12 SKQ1.211006.001 21.12.1 release-keys 
+# DPM - from alioth qssi-user 12 SKQ1.211006.001 21.12.1 release-keys
 system_ext/bin/dpmd|d4073d02594eb71dcc850b1120ac508d1e4350c8
 system_ext/etc/dpm/dpm.conf|95e27da8c989e96c6faea6f0697bce11955b62a5
 system_ext/etc/init/dpmd.rc|738b638ff04cda368e22c03e16baf90ba157a6fc
@@ -4596,16 +4596,16 @@ vendor/lib/libperfgluelayer.so|45f4ce6664541625983080bd9fbbc5c1c89ab0d8
 vendor/lib/libperfioctl.so|5d1da18ae6860f6c4e185df679bec91ba772d331
 vendor/lib/libqti-perfd-client.so|35c5fb10e0dfc1302460200f7757c3329eb42280
 vendor/lib/libqti-perfd.so|26bf06b78c9ace51c141ceb1a8073528aaf0bcc4
-vendor/lib/libqti-util.so|b90cf5d6dab54445906fd94447d6d624586865ed
 vendor/lib/libqti-util-vendor.so|8d9a427d36f8cc02015867a6282575f58e88b735
+vendor/lib/libqti-util.so|b90cf5d6dab54445906fd94447d6d624586865ed
 vendor/lib64/libperfconfig.so|38101a9e2f2ff57df9ef2876a2f966c99e63174d
 vendor/lib64/libperfgluelayer.so|e232a1cee1ac2d7d05ae42cc0d7d09ca3fa911ab
 vendor/lib64/libperfioctl.so|a39729665c0f26c84a3e314bbde3ca72963a4698
-vendor/lib64/libqti-perfd-client.so|cf1db630be11536a27a0ac66646c0024d78c80f7
 vendor/lib64/libqti-perfd-client-vendor.so|b198200962a1f4f76c26610a96501b2165768551
+vendor/lib64/libqti-perfd-client.so|cf1db630be11536a27a0ac66646c0024d78c80f7
 vendor/lib64/libqti-perfd.so|3546caa5eae1d68078af1558ca2525afcf1dff11
-vendor/lib64/libqti-util.so|834cc98315887e57a5f229f9ee1a0d20d0d8f4c3
 vendor/lib64/libqti-util-vendor.so|bdc34fa1fdafffbbbd16ab1b8c031371013ea907
+vendor/lib64/libqti-util.so|834cc98315887e57a5f229f9ee1a0d20d0d8f4c3
 
 # Perf (configs) - from LA.UM.9.6.2.r1-04200-89xx.0
 vendor/etc/perf/commonresourceconfigs.xml|459a18579580713fd839f93c86d6b1f7f028be1e
@@ -4679,7 +4679,6 @@ vendor/lib64/libqmiservices.so|52770edf3e35f5376f3d0a131636f3213c9e59fa
 # Radio - from sweet V13.0.2.0.SKFMIXM
 -system_ext/app/QtiTelephony/QtiTelephony.apk|95dd43c46a2dd4c91c365f8341010d71f0ae2a73
 -system_ext/app/QtiTelephonyService/QtiTelephonyService.apk|e005f8054a2f39e58837322d9f03a6e81a7a4ea9
--system_ext/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk|0e0414d38dd82ce166d26f351fe8f321e4476fad
 system_ext/etc/permissions/qcrilhook.xml|30397e293b2c40e6b7a1d11c2a615cdd05de625a
 system_ext/etc/permissions/qti_libpermissions.xml|593bcb72cce68ceb0a70f50bcae7d460114e7c62
 system_ext/etc/permissions/qti_permissions.xml|e6ff4572352b1a4f91b6b9d7cbb1cad9924410a0
@@ -4687,6 +4686,7 @@ system_ext/etc/permissions/telephony_system-ext_privapp-permissions-qti.xml|4f00
 system_ext/etc/sysconfig/qti_telephony_system_packages_config.xml|83fb6029772c3a425dbd5cd45a61ca9d427e7604
 system_ext/etc/sysconfig/qti_whitelist_system_ext.xml|e34b3affaef4e4ee135cbeec8d7c3e8c6cfd65ce
 system_ext/framework/qcrilhook.jar|28a1f67ced4fba2e3c1b66831c4219bb9df5da30
+-system_ext/priv-app/qcrilmsgtunnel/qcrilmsgtunnel.apk|0e0414d38dd82ce166d26f351fe8f321e4476fad
 vendor/bin/ATFWD-daemon|87dd687f4de2e6bda1abf0e88fd4c7a02f8a2661
 vendor/bin/adpl|befdf77dcac250dcc476b3fb270d5f4fc82ad041
 vendor/bin/netmgrd|00d1d6a2aef0025187c2edae6d7d9ef7b2d830e2
@@ -4834,7 +4834,6 @@ vendor/lib64/vendor.qti.ims.rcsconfig@2.0.so|bd0db76d555c51971dcfcce62d981f987af
 vendor/lib64/vendor.qti.ims.rcsconfig@2.1.so|f52f0cd5e19455eba97dea61542217d4aa5c1841
 
 # Radio (IMS VT) - from sweet V13.0.2.0.SKFMIXM
--system_ext/priv-app/ims/ims.apk|664d341b2cbd4c52c5113b0e7a9af1582e75e997
 system_ext/lib64/lib-imsvideocodec.so|b7001bb1008106ccb9ef92dd2560e2052b40c325
 system_ext/lib64/lib-imsvt.so|e794300d62e04e17e43c32916c7265ee32645f91
 system_ext/lib64/lib-imsvtextutils.so|16bed08e80919635fcb7ace934bd5f16f059c182
@@ -4842,6 +4841,7 @@ system_ext/lib64/lib-imsvtutils.so|875748249b9269e964f467311c72e123878c0de9
 system_ext/lib64/libimscamera_jni.so|ff3d65093f5bf19fba95798b0a121ee510b0f72e
 system_ext/lib64/libimsmedia_jni.so|3c625b6216237f1df44e0c75fcc6894f1a296847
 system_ext/lib64/vendor.qti.imsrtpservice@3.0.so|0c11ff5a7a671073ee40e17d46aa8b7acbf1dc0a
+-system_ext/priv-app/ims/ims.apk|664d341b2cbd4c52c5113b0e7a9af1582e75e997
 vendor/bin/ims_rtp_daemon|c5c4ead4ef77b0b8e34f27015c3ee10381bb6996
 vendor/etc/init/ims_rtp_daemon.rc|06510e936890f51aeb76f2cf3ed5dbe45e67ac20
 vendor/etc/seccomp_policy/imsrtp.policy|7ea8b4012da7bde98fc91bd882185b32784793cc
