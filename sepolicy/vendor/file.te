@@ -11,7 +11,7 @@ type huaqin_sysfs, fs_type, sysfs_type;
 type netmgr_data_file, file_type, data_file_type;
 
 # /proc
-type proc_swap, fs_type;
+type proc_swap, fs_type, proc_type;
 
 # FDT
 type fdt_model, fs_type, sysfs_type;
