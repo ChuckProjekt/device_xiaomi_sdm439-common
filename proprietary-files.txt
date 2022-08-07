@@ -949,6 +949,10 @@ system_ext/lib64/vendor.qti.ims.rcsconfig@2.1.so
 system_ext/lib64/vendor.qti.imsrtpservice@3.0.so
 system_ext/lib64/vendor.qti.imsrtpservice@3.0.so
 -system_ext/priv-app/ims/ims.apk
+vendor/bin/imsdatadaemon
+vendor/bin/imsqmidaemon
+vendor/etc/init/imsdatadaemon.rc
+vendor/etc/init/imsqmidaemon.rc
 
 # IMS (imsrcsd) - from PAN
 vendor/bin/imsrcsd
@@ -976,6 +980,17 @@ vendor/lib64/vendor.qti.ims.factory@1.0.so
 vendor/lib64/vendor.qti.ims.rcsconfig@1.0.so
 vendor/lib64/vendor.qti.ims.rcsconfig@1.1.so
 vendor/lib64/vendor.qti.ims.rcsconfig@2.0.so
+
+# IMS - ims_rtp_daemon - from PAN
+vendor/bin/ims_rtp_daemon
+vendor/etc/init/ims_rtp_daemon_legacy.rc
+vendor/etc/seccomp_policy/imsrtp.policy
+vendor/lib64/lib-imsvtcore.so
+vendor/lib64/lib-rtpcore.so
+vendor/lib64/lib-rtpsl.so
+vendor/lib64/librcc.so
+vendor/lib64/vendor.qti.imsrtpservice@3.0-service-Impl.so
+vendor/lib64/vendor.qti.imsrtpservice@3.0.so
 
 # IMS (uceService) - from PAN
 -system_ext/app/uceShimService/uceShimService.apk
