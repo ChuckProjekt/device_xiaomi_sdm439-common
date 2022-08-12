@@ -18,7 +18,6 @@ camera.otp.filename			u:object_r:camera_prop:s0
 cameradaemon.SaveMemAtBoot		u:object_r:camera_prop:s0
 disable.cpp.power.collapse		u:object_r:camera_prop:s0
 vendor.camera.lowpower.record.enable	u:object_r:camera_prop:s0
-vidc.enc.dcvs.extra-buff-count		u:object_r:camera_prop:s0
 
 # Camera
 vidc.enc.dcvs.extra-buff-count	u:object_r:camera_prop:s0
