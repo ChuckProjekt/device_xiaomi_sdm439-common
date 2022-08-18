@@ -23,7 +23,10 @@ PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += $(LOCAL_PATH)/overlay/packages/apps/Car
 
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
-    $(LOCAL_PATH)
+    $(LOCAL_PATH) \
+    hardware/qcom/audio \
+    hardware/qcom/media \
+    hardware/qcom/display
 
 # Permissions
 PRODUCT_COPY_FILES += \
